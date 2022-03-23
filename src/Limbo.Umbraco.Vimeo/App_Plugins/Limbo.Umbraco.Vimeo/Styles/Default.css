@@ -1,0 +1,50 @@
+﻿.icon-vimeo svg path {
+  fill: #1ab7ea;
+}
+.limbo-vimeo-video {
+  position: relative;
+}
+.limbo-vimeo-video.loading > div {
+  opacity: 0.5;
+}
+.limbo-vimeo-video input,
+.limbo-vimeo-video textarea {
+  width: 100%;
+  flex: 1;
+}
+.limbo-vimeo-video textarea {
+  resize: vertical;
+  min-height: 75px;
+}
+.limbo-vimeo-video-input {
+  display: flex;
+}
+.limbo-vimeo-video button {
+  margin-left: 7px;
+}
+.limbo-vimeo-video-details {
+  display: flex;
+  margin-top: 10px;
+}
+.limbo-vimeo-video-details img {
+  margin-right: 10px;
+}
+.limbo-vimeo-video-details table {
+  background: none;
+}
+.limbo-vimeo-video-details table th {
+  text-align: left;
+  padding-right: 25px;
+}
+.limbo-vimeo-video-details table th,
+.limbo-vimeo-video-details table td {
+  font-size: 14px;
+  vertical-align: top;
+}
+.limbo-vimeo-video-details table tr + tr th,
+.limbo-vimeo-video-details table tr + tr td {
+  padding-top: 4px;
+}
+.limbo-vimeo-video pre {
+  display: none;
+}

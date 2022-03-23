@@ -1,0 +1,9 @@
+﻿{
+  "css": [
+    "/App_Plugins/Limbo.Umbraco.Vimeo/Styles/Default.css"
+  ],
+  "javascript": [
+    "/App_Plugins/Limbo.Umbraco.Vimeo/Scripts/Services/VimeoService.js",
+    "/App_Plugins/Limbo.Umbraco.Vimeo/Scripts/Controllers/Video.js"
+  ]
+}
