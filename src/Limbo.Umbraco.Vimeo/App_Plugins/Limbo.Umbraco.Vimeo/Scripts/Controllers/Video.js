@@ -91,6 +91,11 @@
 
     function init() {
 
+        if (!$scope.model.value) {
+            $scope.model.value = null;
+            return;
+        }
+
         if (!$scope.model.value) return;
         if (!$scope.model.value.video) return;
         if (!$scope.model.value.video._data) return;
