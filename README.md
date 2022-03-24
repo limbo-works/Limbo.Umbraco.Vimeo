@@ -34,7 +34,7 @@ The package features a property editor that allows users to insert a single Vime
         {
           "Key": "8a7a2756-ddc4-486d-978b-a38f116990c1",
           "Name": "MyApp",
-          "Description": "Created via Skybrud.dk Vimeo account",
+          "Description": "A description about the credentials.",
           "AccessToken": "Your access token here"
         }
       ]
