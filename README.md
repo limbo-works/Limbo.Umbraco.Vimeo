@@ -1,4 +1,4 @@
-# Limbo.Umbraco.Vimeo
+# Limbo Vimeo
 
 Vimeo video picker for Umbraco 9.
 
