@@ -1,5 +1,4 @@
 ﻿using System;
-using Limbo.Umbraco.Vimeo.Models;
 using Limbo.Umbraco.Vimeo.Models.Videos;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json;

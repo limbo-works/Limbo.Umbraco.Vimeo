@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Limbo.Umbraco.Vimeo.Models;
 using Limbo.Umbraco.Vimeo.Models.Credentials;
 using Limbo.Umbraco.Vimeo.Options;
 using Limbo.Umbraco.Vimeo.Services;

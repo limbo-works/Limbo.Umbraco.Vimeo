@@ -1,5 +1,4 @@
-﻿using Limbo.Umbraco.Vimeo.Models;
-using Limbo.Umbraco.Vimeo.Models.Settings;
+﻿using Limbo.Umbraco.Vimeo.Models.Settings;
 using Limbo.Umbraco.Vimeo.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Umbraco.Cms.Core.Composing;

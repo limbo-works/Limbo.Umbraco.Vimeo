@@ -1,12 +1,10 @@
-﻿using Limbo.Umbraco.Video.Models;
-using Limbo.Umbraco.Video.Models.Videos;
-using Limbo.Umbraco.Vimeo.Models.Videos;
+﻿using Limbo.Umbraco.Video.Models.Videos;
 using Limbo.Umbraco.Vimeo.Options;
 using Microsoft.AspNetCore.Html;
 using Newtonsoft.Json;
 using Skybrud.Essentials.Json.Converters;
 
-namespace Limbo.Umbraco.Vimeo.Models {
+namespace Limbo.Umbraco.Vimeo.Models.Videos {
     
     /// <summary>
     /// Class representing the embed options of the video.

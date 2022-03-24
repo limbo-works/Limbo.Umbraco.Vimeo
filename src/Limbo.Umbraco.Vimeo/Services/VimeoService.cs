@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Limbo.Umbraco.Vimeo.Extensions;
-using Limbo.Umbraco.Vimeo.Models;
 using Limbo.Umbraco.Vimeo.Models.Credentials;
 using Limbo.Umbraco.Vimeo.Models.Settings;
 using Limbo.Umbraco.Vimeo.Options;
 using Microsoft.Extensions.Options;
-using Skybrud.Essentials.Http.Collections;
 using Skybrud.Essentials.Strings;
 using Skybrud.Social.Vimeo;
 
