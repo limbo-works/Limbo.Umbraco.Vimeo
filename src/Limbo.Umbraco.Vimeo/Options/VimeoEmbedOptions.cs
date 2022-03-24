@@ -66,6 +66,27 @@ namespace Limbo.Umbraco.Vimeo.Options {
         #region Member methods
 
         /// <summary>
+        /// Returns the embed URL for the video matching <see cref="Url"/> or <see cref="VideoId"/>.
+        /// </summary>
+        /// <returns>The embed URL.</returns>
+        public virtual string GetEmbedUrl() {
+            
+            IHttpQueryString query = new HttpQueryString();
+
+            if (string.IsNullOrWhiteSpace(Url)) {
+                if (VideoId == 0) throw new PropertyNotSetException(nameof(VideoId));
+                Player?.AppendToQueryString(query);
+                return $"https://player.vimeo.com/video/{VideoId}?{query}".TrimEnd('?');
+            }
+            
+            string[] pieces = Url.Split('?');
+            if (pieces.Length > 1) query = HttpQueryString.ParseQueryString(pieces[1]);
+            Player?.AppendToQueryString(query);
+            return $"{pieces[0]}?{query}".TrimEnd('?');
+
+        }
+
+        /// <summary>
         /// Returns the HTML embed code for the video described by this options instance.
         /// </summary>
         /// <returns>An instance of <see cref="HtmlString"/> representing the HTML embed code.</returns>
@@ -83,20 +104,8 @@ namespace Limbo.Umbraco.Vimeo.Options {
 
             width ??= 640;
             height ??= 360;
-            
-            string url;
-            IHttpQueryString query = new HttpQueryString();
 
-            if (string.IsNullOrWhiteSpace(Url)) {
-                if (VideoId == 0) throw new PropertyNotSetException(nameof(VideoId));
-                Player?.AppendToQueryString(query);
-                url = $"https://player.vimeo.com/video/{VideoId}?{query}".TrimEnd('?');
-            } else {
-                string[] pieces = Url.Split('?');
-                if (pieces.Length > 1) query = HttpQueryString.ParseQueryString(pieces[1]);
-                Player?.AppendToQueryString(query);
-                url = $"{pieces[0]}?{query}".TrimEnd('?');
-            }
+            string url = GetEmbedUrl();
 
             string title = string.IsNullOrWhiteSpace(Title) ? "Vimeo video player" : Title;
 

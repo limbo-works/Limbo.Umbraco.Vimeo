@@ -14,6 +14,12 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         #region Properties
 
         /// <summary>
+        /// Gets the embed URL.
+        /// </summary>
+        [JsonProperty("url")]
+        public string Url { get; }
+
+        /// <summary>
         /// Gets the HTML embed code.
         /// </summary>
         [JsonProperty("html")]
@@ -25,7 +31,9 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         #region Constructors
 
         internal VimeoEmbed(VimeoVideoDetails video) {
-            Html = new VimeoEmbedOptions(video.Data).GetEmbedCode();
+            VimeoEmbedOptions o = new(video.Data);
+            Url = o.GetEmbedUrl();
+            Html = o.GetEmbedCode();
         }
 
         #endregion
