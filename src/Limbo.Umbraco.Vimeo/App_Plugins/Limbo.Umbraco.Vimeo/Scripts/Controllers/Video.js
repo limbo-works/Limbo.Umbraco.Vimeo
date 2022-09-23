@@ -83,9 +83,7 @@
         vm.title = rawVideoData.name;
         vm.thumbnail = vimeoService.getThumbnail(rawVideoData);
 
-        limboVideoService.getDuration(rawVideoData, function (value) {
-            vm.duration = value;
-        });
+        vm.duration = rawVideoData.duration;
 
     };
 
