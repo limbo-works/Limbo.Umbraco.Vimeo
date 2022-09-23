@@ -71,6 +71,8 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
 
         IEnumerable<IVideoFile> IVideoDetails.Files => Files;
 
+        TimeSpan? IVideoDetails.Duration => Duration;
+
         #endregion
 
         #region Constructors

@@ -1,18 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <LangVersion>9.0</LangVersion>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <ContentTargetFolders>content</ContentTargetFolders>
   </PropertyGroup>
 
   <PropertyGroup>
-	<Version>1.0.0-alpha001</Version>
+	<Version>2.0.0-alpha001</Version>
     <Company>Limbo</Company>
     <Authors>Anders Bjerner</Authors>
     <Copyright>Copyright © 2022</Copyright>
     <Title>Limbo Vimeo</Title>
-    <Description>Vimeo video picker for Umbraco 9.</Description>
+    <Description>Vimeo video picker for Umbraco 10.</Description>
   </PropertyGroup>
 
   <!-- Information for the NuGet package -->
@@ -28,14 +27,12 @@
 
   <!-- Include NuGet dependencies -->
   <ItemGroup>
-    <PackageReference Include="Limbo.Umbraco.Video" Version="1.0.0-beta001">
-		<ExcludeAssets>content;build</ExcludeAssets>
-    </PackageReference>
-    <PackageReference Include="Skybrud.Essentials.AspNetCore" Version="1.0.0-alpha003" />
+    <PackageReference Include="Limbo.Umbraco.Video" Version="2.0.2" />
+    <PackageReference Include="Skybrud.Essentials.AspNetCore" Version="1.0.0-alpha007" />
     <PackageReference Include="Skybrud.Social.Vimeo" Version="1.0.0-beta005" />
-    <PackageReference Include="Umbraco.Cms.Core" Version="9.0.0" />
-    <PackageReference Include="Umbraco.Cms.Web.Website" Version="9.0.0" />
-    <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="9.0.0" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="10.0.0" />
+    <PackageReference Include="Umbraco.Cms.Web.Website" Version="10.0.0" />
+    <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="10.0.0" />
   </ItemGroup>
 
   <!-- Include backoffice assets -->

@@ -22,8 +22,8 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         /// <summary>
         /// Gets the details about the picked video.
         /// </summary>
-        [JsonProperty("video")]
-        public VimeoVideoDetails Video { get; }
+        [JsonProperty("details")]
+        public VimeoVideoDetails Details { get; }
 
         /// <summary>
         /// Gets embed information for the video.
@@ -31,7 +31,7 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         [JsonProperty("embed")]
         public VimeoEmbed Embed { get; }
         
-        IVideoDetails IVideoValue.Video => Video;
+        IVideoDetails IVideoValue.Details => Details;
         
         IVideoEmbed IVideoValue.Embed => Embed;
 
@@ -41,8 +41,8 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
 
         private VimeoValue(JObject json) {
             Source = json.GetString("source");
-            Video = json.GetObject("video", VimeoVideoDetails.Parse);
-            Embed = new VimeoEmbed(Video);
+            Details = json.GetObject("video", VimeoVideoDetails.Parse);
+            Embed = new VimeoEmbed(Details);
         }
 
         #endregion

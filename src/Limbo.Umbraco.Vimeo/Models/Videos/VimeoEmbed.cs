@@ -24,7 +24,7 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         /// </summary>
         [JsonProperty("html")]
         [JsonConverter(typeof(StringJsonConverter))]
-        public HtmlString Html { get; }
+        public IHtmlContent Html { get; }
 
         #endregion
 
