@@ -80,7 +80,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
             }
             
             string[] pieces = Url.Split('?');
-            if (pieces.Length > 1) query = HttpQueryString.ParseQueryString(pieces[1]);
+            if (pieces.Length > 1) query = HttpQueryString.Parse(pieces[1]);
             Player?.AppendToQueryString(query);
             return $"{pieces[0]}?{query}".TrimEnd('?');
 
@@ -90,7 +90,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
         /// Returns the HTML embed code for the video described by this options instance.
         /// </summary>
         /// <returns>An instance of <see cref="HtmlString"/> representing the HTML embed code.</returns>
-        public virtual HtmlString GetEmbedCode() {
+        public virtual IHtmlContent GetEmbedCode() {
             return GetEmbedCode(null, null);
         }
 
