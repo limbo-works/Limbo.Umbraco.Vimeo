@@ -18,7 +18,7 @@ namespace Limbo.Umbraco.Vimeo.PropertyEditors {
 
         internal const string EditorView = "/App_Plugins/Limbo.Umbraco.Vimeo/Views/Video.html";
 
-        internal const string EditorIcon = "icon-vimeo color-limbo";
+        internal const string EditorIcon = "icon-limbo-vimeo-alt color-limbo";
 
         #endregion
 
