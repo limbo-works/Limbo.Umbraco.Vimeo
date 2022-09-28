@@ -7,12 +7,14 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
     /// Class representing a Vimeo video file.
     /// </summary>
     public class VimeoFile : VideoFile {
-        
+
         /// <summary>
         /// Initializes a new instance based on the specified <paramref name="file"/>.
         /// </summary>
         /// <param name="file">The video file from the Vimeo API.</param>
-        public VimeoFile(VimeoVideoFile file) : base(file.JObject) { }
+        public VimeoFile(VimeoVideoFile file) : base(file.JObject) {
+            Url = file.Link;
+        }
 
     }
 

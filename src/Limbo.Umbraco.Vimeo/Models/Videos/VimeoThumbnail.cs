@@ -12,7 +12,9 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         /// Initializes a new instance based on the specified <paramref name="picture"/>.
         /// </summary>
         /// <param name="picture">The video picture from the Vimeo API.</param>
-        public VimeoThumbnail(VimeoVideoPicture picture) : base(picture.JObject) { }
+        public VimeoThumbnail(VimeoVideoPicture picture) : base(picture.JObject) {
+            Url = picture.Link;
+        }
 
     }
 
