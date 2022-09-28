@@ -1,4 +1,5 @@
-﻿using Limbo.Umbraco.Vimeo.Models.Settings;
+﻿using Limbo.Umbraco.Vimeo.Manifests;
+using Limbo.Umbraco.Vimeo.Models.Settings;
 using Limbo.Umbraco.Vimeo.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Umbraco.Cms.Core.Composing;
@@ -12,9 +13,11 @@ namespace Limbo.Umbraco.Vimeo.Composers {
 
         public void Compose(IUmbracoBuilder builder) {
 
-            builder.Services.AddTransient<VimeoService>();
+            builder.Services.AddSingleton<VimeoService>();
 
             builder.AddUmbracoOptions<VimeoSettings>();
+
+            builder.ManifestFilters().Append<VimeoManifestFilter>();
 
         }
 

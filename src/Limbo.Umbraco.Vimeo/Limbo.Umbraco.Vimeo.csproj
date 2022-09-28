@@ -1,12 +1,15 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <ContentTargetFolders>content</ContentTargetFolders>
+    <StaticWebAssetBasePath>App_Plugins/$(AssemblyName)</StaticWebAssetBasePath>
   </PropertyGroup>
 
   <PropertyGroup>
-	<Version>2.0.0-alpha001</Version>
+    <VersionPrefix>2.0.0-alpha000</VersionPrefix>
+    <VersionSuffix Condition="'$(Configuration)'=='Debug'">build$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmm`))</VersionSuffix>
     <Company>Limbo</Company>
     <Authors>Anders Bjerner</Authors>
     <Copyright>Copyright © 2022</Copyright>
@@ -35,23 +38,15 @@
     <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="10.0.0" />
   </ItemGroup>
 
-  <!-- Include backoffice assets -->
-  <ItemGroup>
-    <Content Include="App_Plugins\Limbo.Umbraco.Vimeo\**\*.svg" />
-    <Content Include="App_Plugins\Limbo.Umbraco.Vimeo\**\*.css" />
-    <Content Include="App_Plugins\Limbo.Umbraco.Vimeo\**\*.html" />
-    <Content Include="App_Plugins\Limbo.Umbraco.Vimeo\**\*.js" />
-    <Content Include="App_Plugins\Limbo.Umbraco.Vimeo\package.manifest" />
-  </ItemGroup>
-
-  <!-- Include the targets file -->
-  <ItemGroup>
-    <Content Include="../build/$(AssemblyName).targets" PackagePath="build\$(AssemblyName).targets" />
-  </ItemGroup>
-
   <!-- Include package icon for NuGet -->
   <ItemGroup>
     <Content Include="../build/Limbo.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <!-- Remove non-package files from the NuGet package -->
+  <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+    <None Include="compilerconfig.json" />
   </ItemGroup>
 
   <!-- Generate XML documentation -->

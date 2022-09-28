@@ -4,7 +4,6 @@ using Limbo.Umbraco.Vimeo.Models.Credentials;
 using Limbo.Umbraco.Vimeo.Options;
 using Limbo.Umbraco.Vimeo.Services;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.AspNetCore;
 using Skybrud.Social.Vimeo;
