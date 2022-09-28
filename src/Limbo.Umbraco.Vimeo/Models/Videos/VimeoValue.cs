@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Extensions;
 
 namespace Limbo.Umbraco.Vimeo.Models.Videos {
-    
+
     /// <summary>
     /// Class representing the value of the <see cref="VimeoEditor"/> property editor.
     /// </summary>
@@ -30,9 +30,9 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         /// </summary>
         [JsonProperty("embed")]
         public VimeoEmbed Embed { get; }
-        
+
         IVideoDetails IVideoValue.Details => Details;
-        
+
         IVideoEmbed IVideoValue.Embed => Embed;
 
         #endregion
@@ -42,7 +42,7 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         private VimeoValue(JObject json) {
             Source = json.GetString("source");
             Details = json.GetObject("video", VimeoVideoDetails.Parse);
-            Embed = new VimeoEmbed(Details);
+            Embed = new VimeoEmbed(Details, json.GetObject("parameters"));
         }
 
         #endregion

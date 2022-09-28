@@ -10,7 +10,7 @@ using Skybrud.Essentials.Json.Extensions;
 using Skybrud.Social.Vimeo.Models.Videos;
 
 namespace Limbo.Umbraco.Vimeo.Models.Videos {
-    
+
     /// <summary>
     /// Class with details about a Vimeo video.
     /// </summary>
@@ -80,14 +80,14 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         private VimeoVideoDetails(JObject json) : base(json) {
 
             Data = json.GetString("_data", x => JsonUtils.ParseJsonObject(x, VimeoVideo.Parse));
-            
+
             Id = Data.Id;
             Url = Data.Link;
             Title = Data.Name;
             Description = Data.Description;
             Duration = Data.Duration;
             Thumbnails = Data.Pictures.Sizes.Select(x => new VimeoThumbnail(x)).ToList();
-            Files = Data.Files.Select(x => new VimeoFile(x)).ToList();
+            Files = Data.JObject.Property("files") is null ? null : Data.Files.Select(x => new VimeoFile(x)).ToList();
 
         }
 
@@ -105,7 +105,7 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         }
 
         #endregion
-    
+
     }
 
 }

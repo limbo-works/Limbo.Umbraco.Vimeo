@@ -7,7 +7,7 @@ using Skybrud.Essentials.Json.Extensions;
 using Skybrud.Social.Vimeo.Models.Videos;
 
 namespace Limbo.Umbraco.Vimeo.Options {
-    
+
     /// <summary>
     /// Class representing the embed options for a Vimeo video
     /// </summary>
@@ -40,7 +40,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
         public VimeoEmbedPlayerOptions Player { get; set; }
 
         #endregion
-        
+
         #region Constructors
 
         /// <summary>
@@ -49,6 +49,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
         /// <param name="videoId">The ID of the video.</param>
         public VimeoEmbedOptions(long videoId) {
             VideoId = videoId;
+            Player = new VimeoEmbedPlayerOptions();
         }
 
         /// <summary>
@@ -59,6 +60,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
             VideoId = video.Id;
             Url = video.JObject.GetString("player_embed_url");
             Title = video.Name;
+            Player = new VimeoEmbedPlayerOptions();
         }
 
         #endregion
@@ -70,7 +72,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
         /// </summary>
         /// <returns>The embed URL.</returns>
         public virtual string GetEmbedUrl() {
-            
+
             IHttpQueryString query = new HttpQueryString();
 
             if (string.IsNullOrWhiteSpace(Url)) {
@@ -78,7 +80,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
                 Player?.AppendToQueryString(query);
                 return $"https://player.vimeo.com/video/{VideoId}?{query}".TrimEnd('?');
             }
-            
+
             string[] pieces = Url.Split('?');
             if (pieces.Length > 1) query = HttpQueryString.Parse(pieces[1]);
             Player?.AppendToQueryString(query);

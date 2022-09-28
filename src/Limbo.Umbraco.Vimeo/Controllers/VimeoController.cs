@@ -1,8 +1,10 @@
 ﻿using System.Linq;
+using Limbo.Umbraco.Vimeo.Models.Api;
 using Limbo.Umbraco.Vimeo.Models.Credentials;
 using Limbo.Umbraco.Vimeo.Options;
 using Limbo.Umbraco.Vimeo.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.AspNetCore;
 using Skybrud.Social.Vimeo;
@@ -14,10 +16,10 @@ using Umbraco.Cms.Web.Common.Attributes;
 #pragma warning disable 1591
 
 namespace Limbo.Umbraco.Vimeo.Controllers {
-   
+
     [PluginController("Limbo")]
     public class VimeoController : UmbracoAuthorizedApiController {
-        
+
         private readonly VimeoService _vimeoService;
 
         #region Constructors
@@ -29,11 +31,11 @@ namespace Limbo.Umbraco.Vimeo.Controllers {
         #endregion
 
         #region Public API methods
-        
+
         [HttpGet]
         [HttpPost]
         public object GetVideo() {
-            
+
             // Get the "source" parameter from either GET or POST
             string source = HttpContext.Request.Query.GetString("source");
             if (string.IsNullOrWhiteSpace(source) && HttpContext.Request.HasFormContentType) {
@@ -43,7 +45,7 @@ namespace Limbo.Umbraco.Vimeo.Controllers {
             if (string.IsNullOrWhiteSpace(source)) return BadRequest("No source specified.");
 
             if (!_vimeoService.TryGetVideoId(source, out VimeoVideoOptions options)) return BadRequest("Source doesn't match a valid URL or embed code.");
-            
+
             VimeoCredentials credentials = _vimeoService.GetCredentials().FirstOrDefault();
             if (credentials == null || !_vimeoService.TryGetHttpService(credentials, out VimeoHttpService http)) return BadRequest("No credentials configured for Vimeo.");
 
@@ -52,16 +54,10 @@ namespace Limbo.Umbraco.Vimeo.Controllers {
             VimeoVideo video = response.Body;
             if (video == null) return NotFound("Video not found.");
 
-            JObject embed = JObject.FromObject(options);
-            embed.Remove("videoId");
+            JObject parameters = JObject.FromObject(options);
+            parameters.Remove("videoId");
 
-            return new {
-                credentials = new {
-                    key = credentials.Key
-                },
-                video = video?.JObject,
-                embed
-            };
+            return new ApiVideoValue(credentials, video, parameters);
 
         }
 

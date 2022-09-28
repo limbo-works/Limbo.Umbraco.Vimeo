@@ -8,7 +8,7 @@
     vm.getVideo = function () {
 
         const source = $scope.model.value && $scope.model.value.source ? $scope.model.value.source.trim() : null;
-        
+
         if (source) {
 
             vm.loading = true;
@@ -16,9 +16,9 @@
 
             vimeoService.getVideo(source).then(function (res) {
 
-                // Update the credentials
+                // Update the property value
                 $scope.model.value.credentials = res.data.credentials;
-                $scope.model.value.embed = res.data.embed;
+                $scope.model.value.parameters = res.data.parameters;
 
                 // As Umbraco/JSON.net will corrupt any timestamps in the JSON, we need to store it as serialized
                 $scope.model.value.video = { _data: angular.toJson(res.data.video) };
