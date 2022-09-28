@@ -1,20 +1,53 @@
 # Limbo Vimeo
 
-Vimeo video picker for Umbraco 9.
+Vimeo video picker for Umbraco 10.
+
+<table>
+  <tr>
+    <td><strong>License:</strong></td>
+    <td><a href="./LICENSE.md"><strong>MIT License</strong></a></td>
+  </tr>
+  <tr>
+    <td><strong>Umbraco:</strong></td>
+    <td>
+      Umbraco 10
+      <sub><sup>(and <a href="https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v1/main">Umbraco 9</a>)</sup></sub>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Target Framework:</strong></td>
+    <td>
+      .NET 6
+      <sub><sup>(and <a href="https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v1/main">.NET 5</a>)</sup></sub>
+    </td>
+  </tr>
+</table>
+
+
+
+
+
+<br /><br />
 
 ## Installation
 
-Install the <a href="https://www.nuget.org/packages/Limbo.Umbraco.Vimeo/1.0.0-alpha001" target="_blank">NuGet package</a> - either via the .NET CLI:
+Install the <a href="https://www.nuget.org/packages/Limbo.Umbraco.Vimeo/2.0.0-alpha001" target="_blank">NuGet package</a> - either via the .NET CLI:
 
 ```
-dotnet add package Limbo.Umbraco.Vimeo --version 1.0.0-alpha001
+dotnet add package Limbo.Umbraco.Vimeo --version 2.0.0-alpha001
 ```
 
 or the NuGet package manager:
 
 ```
-Install-Package Limbo.Umbraco.Vimeo -Version 1.0.0-alpha001
+Install-Package Limbo.Umbraco.Vimeo -Version 2.0.0-alpha001
 ```
+
+
+
+
+
+<br /><br />
 
 ## Property Editor
 
@@ -23,6 +56,31 @@ The package features a property editor that allows users to insert a single Vime
 ![image](https://user-images.githubusercontent.com/3634580/159897092-715b3f00-1516-4c62-be4d-923b0275606f.png)
 
 ![image](https://user-images.githubusercontent.com/3634580/159897124-2d9d8f00-a275-429d-991a-50778089b19b.png)
+
+When a valid Vimeo has been inserted on a property, the property exposes an instance of `VimeoValue`. Details about the video can be accessed via the `Details` property, and embed information can be accessed through the `Embed` property:
+
+```cshtml
+@using Limbo.Umbraco.Vimeo.Models.Videos
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+
+@{
+
+    // Get the media from the media cache
+    var media = Umbraco.Media(1234);
+
+    // Get the property value
+    var vimeo = media.Value<VimeoValue>("video");
+
+    // Render the video title
+    <h1>@vimeo.Details.Title</h1>
+
+    // Render the embed code
+    @vimeo.Embed
+
+}
+```
+
+<br /><br />
 
 ## Configuration
 
