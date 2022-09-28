@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>2.0.0-alpha000</VersionPrefix>
+    <VersionPrefix>2.0.0-alpha001</VersionPrefix>
     <VersionSuffix Condition="'$(Configuration)'=='Debug'">build$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmm`))</VersionSuffix>
     <Company>Limbo</Company>
     <Authors>Anders Bjerner</Authors>
@@ -20,7 +20,7 @@
   <!-- Information for the NuGet package -->
   <PropertyGroup>
     <PackageId>Limbo.Umbraco.Vimeo</PackageId>
-    <PackageTags>Skybrud, Limbo, Umbraco, Vimeo</PackageTags>
+    <PackageTags>Skybrud, Limbo, Vimeo, API, Picker, Umbraco, Umbraco-Marketplace</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/limbo-works/Limbo.Umbraco.Vimeo</PackageProjectUrl>
     <PackageIcon>Limbo.png</PackageIcon>
