@@ -1,12 +1,12 @@
 ﻿<div class="limbo-vimeo-video" ng-controller="Limbo.Umbraco.Vimeo.Video as vm" ng-class="{loading: vm.loading}">
     <div class="limbo-vimeo-video-input">
-        <input type="text" ng-show="!vm.embed" ng-model="model.value.source" ng-change="vm.updated()" placeholder="limboVideo_urlPlaceholder" localize="placeholder" />
-        <textarea ng-show="vm.embed" ng-model="model.value.source" ng-change="vm.updated()" rows="5"></textarea>
-        <button type="button" ng-click="vm.refresh()" class="btn btn-default">
+        <input type="text" ng-show="!vm.embed" ng-model="vm.value.source" ng-change="vm.updated()" placeholder="limboVideo_urlPlaceholder" localize="placeholder" />
+        <textarea ng-show="vm.embed" ng-model="vm.value.source" ng-change="vm.updated()" rows="5"></textarea>
+        <button type="button" ng-click="vm.refresh()" ng-disabled="!vm.value.source" class="btn btn-default">
             <i class="icon icon-refresh"></i>
         </button>
     </div>
-    <div class="limbo-vimeo-video-details" ng-show="model.value.video">
+    <div class="limbo-vimeo-video-details" ng-show="vm.value.video">
         <div class="limbo-vimeo-thumbnail">
             <img ng-src="{{vm.thumbnail.url}}" width="{{vm.thumbnail.width}}" height="{{vm.thumbnail.height}}" />
         </div>
@@ -39,6 +39,6 @@
         </div>
     </div>
     <pre>{{vm | json}}</pre>
-    <pre>{{model.value | json}}</pre>
+    <pre>{{vm.value | json}}</pre>
     <umb-load-indicator ng-if="vm.loading"></umb-load-indicator>
 </div>
