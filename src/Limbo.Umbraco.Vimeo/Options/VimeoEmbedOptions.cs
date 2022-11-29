@@ -80,7 +80,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
             }
             
             string[] pieces = Url.Split('?');
-            if (pieces.Length > 1) query = HttpQueryString.ParseQueryString(pieces[1]);
+            if (pieces.Length > 1) query = HttpQueryString.Parse(pieces[1]);
             Player?.AppendToQueryString(query);
             return $"{pieces[0]}?{query}".TrimEnd('?');
 

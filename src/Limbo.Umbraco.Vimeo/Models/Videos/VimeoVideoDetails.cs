@@ -4,9 +4,9 @@ using System.Linq;
 using Limbo.Umbraco.Video.Models.Videos;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json;
+using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Converters.Time;
-using Skybrud.Essentials.Json.Extensions;
+using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 using Skybrud.Social.Vimeo.Models.Videos;
 
 namespace Limbo.Umbraco.Vimeo.Models.Videos {
@@ -79,7 +79,7 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
 
             Data = json.GetString("_data", x => JsonUtils.ParseJsonObject(x, VimeoVideo.Parse));
             
-            Id = Data.Id;
+            Id = Data!.Id;
             Url = Data.Link;
             Title = Data.Name;
             Description = Data.Description;

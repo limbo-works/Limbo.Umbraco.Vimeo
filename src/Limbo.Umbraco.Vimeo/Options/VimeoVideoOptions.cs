@@ -1,5 +1,4 @@
-﻿using Limbo.Umbraco.Vimeo.Extensions;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Skybrud.Essentials.Http.Collections;
 using Skybrud.Social.Vimeo.Models.Videos;
 
@@ -74,7 +73,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
         public VimeoVideoOptions(long videoId, string query) {
             VideoId = videoId;
             if (string.IsNullOrWhiteSpace(query)) return;
-            UpdateFromQuery(HttpQueryString.ParseQueryString(query));
+            UpdateFromQuery(HttpQueryString.Parse(query));
         }
 
         /// <summary>
