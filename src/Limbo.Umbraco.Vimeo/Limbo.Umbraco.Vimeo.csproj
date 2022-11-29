@@ -34,9 +34,9 @@
     </PackageReference>
     <PackageReference Include="Skybrud.Essentials.AspNetCore" Version="1.0.0-alpha003" />
     <PackageReference Include="Skybrud.Social.Vimeo" Version="1.0.0" />
-    <PackageReference Include="Umbraco.Cms.Core" Version="9.0.0" />
-    <PackageReference Include="Umbraco.Cms.Web.Website" Version="9.0.0" />
-    <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="9.0.0" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="[9.0.0,10.0)" />
+    <PackageReference Include="Umbraco.Cms.Web.Website" Version="[9.0.0,10.0)" />
+    <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="[9.0.0,10.0)" />
   </ItemGroup>
 
   <!-- Include backoffice assets -->
