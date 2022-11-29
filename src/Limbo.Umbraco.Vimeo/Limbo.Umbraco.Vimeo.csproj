@@ -30,7 +30,7 @@
   <!-- Include NuGet dependencies -->
   <ItemGroup>
     <PackageReference Include="Limbo.Umbraco.Video" Version="1.0.0">
-		<ExcludeAssets>content;build</ExcludeAssets>
+      <ExcludeAssets>content;build</ExcludeAssets>
     </PackageReference>
     <PackageReference Include="Skybrud.Essentials.AspNetCore" Version="1.0.0-alpha003" />
     <PackageReference Include="Skybrud.Social.Vimeo" Version="1.0.0" />
