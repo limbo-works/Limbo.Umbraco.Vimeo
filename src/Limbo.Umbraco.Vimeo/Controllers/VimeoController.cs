@@ -4,7 +4,6 @@ using Limbo.Umbraco.Vimeo.Options;
 using Limbo.Umbraco.Vimeo.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.AspNetCore;
 using Skybrud.Social.Vimeo;
 using Skybrud.Social.Vimeo.Models.Videos;
 using Skybrud.Social.Vimeo.Responses.Videos;
@@ -35,7 +34,7 @@ namespace Limbo.Umbraco.Vimeo.Controllers {
         public object GetVideo() {
             
             // Get the "source" parameter from either GET or POST
-            string source = HttpContext.Request.Query.GetString("source");
+            string source = HttpContext.Request.Query["source"];
             if (string.IsNullOrWhiteSpace(source) && HttpContext.Request.HasFormContentType) {
                 source = HttpContext.Request.Form["source"].FirstOrDefault();
             }
