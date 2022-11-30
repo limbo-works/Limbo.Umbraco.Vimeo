@@ -1,6 +1,8 @@
 # Limbo Vimeo [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md) [![NuGet](https://img.shields.io/nuget/v/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) [![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) [![Our Umbraco](https://img.shields.io/badge/our-umbraco-%233544B1)](https://our.umbraco.com/packages/backoffice-extensions/limbo-vimeo/)
 
-Vimeo video picker for Umbraco 10.
+This package features a property editor for inserting (via URL or embed code) a Vimeo video. The property editor saves a bit of information about the video, which then will be availble in C#.
+
+The latest version (`v2.x`) supports Umbraco 10 and 11, whereas older releases (`v1.x`) support Umbraco 9.
 
 <table>
   <tr>
@@ -10,7 +12,7 @@ Vimeo video picker for Umbraco 10.
   <tr>
     <td><strong>Umbraco:</strong></td>
     <td>
-      Umbraco 10
+      Umbraco 10 and 11
       <sub><sup>(and <a href="https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v1/main">Umbraco 9</a>)</sup></sub>
     </td>
   </tr>
@@ -31,16 +33,16 @@ Vimeo video picker for Umbraco 10.
 
 ## Installation
 
-Install the <a href="https://www.nuget.org/packages/Limbo.Umbraco.Vimeo/2.0.0-alpha001" target="_blank">NuGet package</a> - either via the .NET CLI:
+Install the <a href="https://www.nuget.org/packages/Limbo.Umbraco.Vimeo/2.0.0" target="_blank">NuGet package</a> - either via the .NET CLI:
 
 ```
-dotnet add package Limbo.Umbraco.Vimeo --version 2.0.0-alpha001
+dotnet add package Limbo.Umbraco.Vimeo
 ```
 
 or the NuGet package manager:
 
 ```
-Install-Package Limbo.Umbraco.Vimeo -Version 2.0.0-alpha001
+Install-Package Limbo.Umbraco.Vimeo
 ```
 
 
