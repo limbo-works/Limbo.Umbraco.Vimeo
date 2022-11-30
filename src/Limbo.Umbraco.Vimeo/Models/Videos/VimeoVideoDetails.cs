@@ -4,9 +4,9 @@ using System.Linq;
 using Limbo.Umbraco.Video.Models.Videos;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json;
+using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Converters.Time;
-using Skybrud.Essentials.Json.Extensions;
+using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 using Skybrud.Social.Vimeo.Models.Videos;
 
 namespace Limbo.Umbraco.Vimeo.Models.Videos {
@@ -79,7 +79,7 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
 
         private VimeoVideoDetails(JObject json) : base(json) {
 
-            Data = json.GetString("_data", x => JsonUtils.ParseJsonObject(x, VimeoVideo.Parse));
+            Data = json.GetString("_data", x => JsonUtils.ParseJsonObject(x, VimeoVideo.Parse))!;
 
             Id = Data.Id;
             Url = Data.Link;
@@ -87,7 +87,7 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
             Description = Data.Description;
             Duration = Data.Duration;
             Thumbnails = Data.Pictures.Sizes.Select(x => new VimeoThumbnail(x)).ToList();
-            Files = Data.JObject.Property("files") is null ? null : Data.Files.Select(x => new VimeoFile(x)).ToList();
+            Files = Data.JObject!.Property("files") is null ? null : Data.Files.Select(x => new VimeoFile(x)).ToList();
 
         }
 

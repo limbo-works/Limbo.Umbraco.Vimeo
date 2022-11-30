@@ -1,4 +1,5 @@
-﻿using Limbo.Umbraco.Video.Models.Videos;
+﻿using Limbo.Umbraco.Video.Models.Providers;
+using Limbo.Umbraco.Video.Models.Videos;
 using Limbo.Umbraco.Vimeo.PropertyEditors;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -20,6 +21,12 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         public string Source { get; }
 
         /// <summary>
+        /// Gets information about the video provider.
+        /// </summary>
+        [JsonProperty("provider")]
+        public VimeoVideoProvider Provider { get; }
+
+        /// <summary>
         /// Gets the details about the picked video.
         /// </summary>
         [JsonProperty("details")]
@@ -31,6 +38,8 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         [JsonProperty("embed")]
         public VimeoEmbed Embed { get; }
 
+        IVideoProvider IVideoValue.Provider => Provider;
+
         IVideoDetails IVideoValue.Details => Details;
 
         IVideoEmbed IVideoValue.Embed => Embed;
@@ -41,6 +50,7 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
 
         private VimeoValue(JObject json) {
             Source = json.GetString("source");
+            Provider = VimeoVideoProvider.Default;
             Details = json.GetObject("video", VimeoVideoDetails.Parse);
             Embed = new VimeoEmbed(Details, json.GetObject("parameters"));
         }
