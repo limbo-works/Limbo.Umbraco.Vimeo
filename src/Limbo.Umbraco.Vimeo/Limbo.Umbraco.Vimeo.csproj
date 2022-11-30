@@ -14,15 +14,15 @@
     <Authors>Anders Bjerner</Authors>
     <Copyright>Copyright © 2022</Copyright>
     <Title>Limbo Vimeo</Title>
-    <Description>Vimeo video picker for Umbraco 10.</Description>
+    <Description>Vimeo video picker for Umbraco.</Description>
   </PropertyGroup>
 
   <!-- Information for the NuGet package -->
   <PropertyGroup>
     <PackageId>Limbo.Umbraco.Vimeo</PackageId>
-    <PackageTags>Skybrud, Limbo, Vimeo, API, Picker, Umbraco, Umbraco-Marketplace</PackageTags>
+    <PackageTags>Skybrud, Limbo, Vimeo, API, Picker, Umbraco, Integration, Umbraco-Marketplace</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/limbo-works/Limbo.Umbraco.Vimeo</PackageProjectUrl>
+    <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.vimeo/v2/</PackageProjectUrl>
     <PackageIcon>Limbo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/limbo-works/Limbo.Umbraco.Vimeo</RepositoryUrl>
