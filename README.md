@@ -1,4 +1,4 @@
-# Limbo Vimeo [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md) [![NuGet](https://img.shields.io/nuget/v/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) [![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) [![Our Umbraco](https://img.shields.io/badge/our-umbraco-%233544B1)](https://our.umbraco.com/packages/backoffice-extensions/limbo-vimeo/)
+# Limbo Vimeo [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md) [![NuGet](https://img.shields.io/nuget/v/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) [![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) [![Umbraco Marketplace](https://img.shields.io/badge/umbraco-marketplace-%233544B1)](https://marketplace.umbraco.com/package/limbo.umbraco.vimeo)
 
 This package features a property editor for inserting (via URL or embed code) a Vimeo video. The property editor saves a bit of information about the video, which then will be availble in C#.
 
