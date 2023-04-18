@@ -9,7 +9,9 @@ namespace Limbo.Umbraco.Vimeo.Manifests {
         /// <inheritdoc />
         public void Filter(List<PackageManifest> manifests) {
             manifests.Add(new PackageManifest {
-                PackageName = "limbo-umbraco-vimeo",
+                AllowPackageTelemetry = true,
+                PackageName = VimeoPackage.Name,
+                Version = VimeoPackage.InformationalVersion,
                 BundleOptions = BundleOptions.Independent,
                 Scripts = new[] {
                     "/App_Plugins/Limbo.Umbraco.Vimeo/Scripts/Services/VimeoService.js",
