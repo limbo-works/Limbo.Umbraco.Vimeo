@@ -11,6 +11,8 @@
 
         const source = vm.value && vm.value.source ? vm.value.source.trim() : null;
 
+        vm.error = null;
+
         if (source) {
 
             vm.loading = true;
@@ -31,6 +33,24 @@
 
                 vm.loading = false;
                 vm.updateUI();
+
+            }, function (res) {
+
+                vm.loading = false;
+
+                vm.embed = false;
+                rawVideoData = null;
+
+                vm.value = { source: vm.value.source };
+
+                // Update the property value
+                vm.sync();
+
+                vm.updateUI();
+
+                if (res.data.message) {
+                    vm.error = { message: res.data.message };
+                }
 
             });
 

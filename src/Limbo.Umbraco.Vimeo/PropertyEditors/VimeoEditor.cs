@@ -1,4 +1,5 @@
-﻿using Umbraco.Cms.Core.PropertyEditors;
+﻿using Umbraco.Cms.Core.Models;
+using Umbraco.Cms.Core.PropertyEditors;
 
 #pragma warning disable 1591
 
@@ -25,6 +26,16 @@ namespace Limbo.Umbraco.Vimeo.PropertyEditors {
         #region Constructors
 
         public VimeoEditor(IDataValueEditorFactory dataValueEditorFactory) : base(dataValueEditorFactory) { }
+
+        #endregion
+
+        #region Member methods
+
+        public override IDataValueEditor GetValueEditor(object configuration) {
+            IDataValueEditor editor = base.GetValueEditor(configuration);
+            if (editor is DataValueEditor dve) dve.View += $"?v={VimeoPackage.InformationalVersion}";
+            return editor;
+        }
 
         #endregion
 

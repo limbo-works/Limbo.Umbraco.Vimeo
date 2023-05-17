@@ -1,6 +1,7 @@
 ﻿<div class="limbo-vimeo-video" ng-controller="Limbo.Umbraco.Vimeo.Video as vm" ng-class="{loading: vm.loading}">
     <div class="limbo-vimeo-video-input">
         <h5><localize key="limboVimeo_urlOrEmbedCode">URL or embed code</localize></h5>
+        <div class="alert alert-danger" ng-if="vm.error">{{vm.error.message}}</div>
         <input type="text" ng-show="!vm.embed" ng-model="vm.value.source" ng-change="vm.updated()" placeholder="limboVimeo_urlPlaceholder" localize="placeholder" />
         <textarea ng-show="vm.embed" ng-model="vm.value.source" ng-change="vm.updated()" rows="5"></textarea>
         <div>

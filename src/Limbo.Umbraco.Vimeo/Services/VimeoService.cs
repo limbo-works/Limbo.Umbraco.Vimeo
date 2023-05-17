@@ -15,7 +15,7 @@ namespace Limbo.Umbraco.Vimeo.Services {
     /// Service for working with the YouTube integration.
     /// </summary>
     public class VimeoService {
-        
+
         private readonly IOptions<VimeoSettings> _settings;
 
         #region Constructors
@@ -41,7 +41,7 @@ namespace Limbo.Umbraco.Vimeo.Services {
 
             options = null;
             if (string.IsNullOrWhiteSpace(source)) return false;
-            
+
             // Is "source" an iframe?
             if (source.Contains("<iframe")) {
 
@@ -56,18 +56,22 @@ namespace Limbo.Umbraco.Vimeo.Services {
 
             // Split the source into URL and query string
             (string url, string query) = source.Split('?');
-            
+
             // Does "source" match known formats of Vimeo video URLs?
             long videoId;
+            string hash = null;
             if (RegexUtils.IsMatch(url, "vimeo.com/(video/|)([0-9]+)$", out Match m1)) {
                 videoId = long.Parse(m1.Groups[2].Value);
+            } else if (RegexUtils.IsMatch(url, "vimeo.com/(video/|)([0-9]+)/([a-z0-9]+)$", out m1)) {
+                videoId = long.Parse(m1.Groups[2].Value);
+                hash = m1.Groups[3].Value;
             } else if (RegexUtils.IsMatch(url, "vimeo.com/manage/videos/([0-9]+)$", out m1)) {
                 videoId = long.Parse(m1.Groups[1].Value);
             } else {
                 return false;
             }
 
-            options = new VimeoVideoOptions(videoId, query);
+            options = new VimeoVideoOptions(videoId, hash, query);
 
             return true;
 

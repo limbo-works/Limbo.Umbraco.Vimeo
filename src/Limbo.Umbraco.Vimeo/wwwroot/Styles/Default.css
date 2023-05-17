@@ -7,6 +7,9 @@
 .limbo-vimeo-video.loading > div {
   opacity: 0.5;
 }
+.limbo-vimeo-video .alert {
+  margin-bottom: 10px;
+}
 .limbo-vimeo-video input {
   width: 100%;
   flex: 1;

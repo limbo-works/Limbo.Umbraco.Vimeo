@@ -9,4 +9,11 @@
     <key alias="duration">Længde</key>
     <key alias="urlPlaceholder">Angiv videoens URL eller embed-kode her...</key>
   </area>
+  <area alias="limboVimeo">
+    <key alias="errorNoSource">Ingen URL eller embed-kode angivet.</key>
+    <key alias="errorInvalidSource">Den angivne værdi matcher ikke en gyldig URL eller embed-kode.</key>
+    <key alias="errorNoCredentials">Ingen credenbtials konfigureret for Vimeo.</key>
+    <key alias="errorVideoNotFound">En video med den angivne URL eller embed-kode blev ikke fundet.</key>
+    <key alias="errorGetVideoFailed">Der opstod en fejl i forespørgslen til Vimeo's API. Se Umbraco's log for flere oplysninger eller kontakt din administrator hvis fejlen fortsætter.</key>
+  </area>
 </language>

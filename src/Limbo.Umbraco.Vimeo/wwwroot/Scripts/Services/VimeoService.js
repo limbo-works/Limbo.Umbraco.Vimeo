@@ -3,7 +3,7 @@
     // Get relevant settings from Umbraco's server variables
     const cacheBuster = Umbraco.Sys.ServerVariables.application.cacheBuster;
     const umbracoPath = Umbraco.Sys.ServerVariables.umbracoSettings.umbracoPath;
-    
+
     // Fetches information about the video from our underlying API
     function getVideo(source) {
 
@@ -14,6 +14,7 @@
         return $http({
             method: "POST",
             url: `${umbracoPath}/backoffice/Limbo/Vimeo/GetVideo`,
+            umbIgnoreErrors: true,
             headers: { "Content-Type": "application/x-www-form-urlencoded" },
             data: $.param(data)
         });
@@ -25,7 +26,7 @@
         const p = video && video.pictures ? video.pictures.sizes.find(x => x.width >= 200) : null;
         return p ? { width: p.width, height: p.height, url: p.link } : null;
     }
-    
+
     return {
         getVideo: getVideo,
         getThumbnail: getThumbnail,

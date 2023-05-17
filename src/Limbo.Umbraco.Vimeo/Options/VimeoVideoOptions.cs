@@ -3,7 +3,7 @@ using Skybrud.Essentials.Http.Collections;
 using Skybrud.Social.Vimeo.Models.Videos;
 
 namespace Limbo.Umbraco.Vimeo.Options {
-   
+
     /// <summary>
     /// Class with options describing a video - eg. based on a URL or embed code.
     /// </summary>
@@ -16,6 +16,12 @@ namespace Limbo.Umbraco.Vimeo.Options {
         /// </summary>
         [JsonProperty("videoId")]
         public long VideoId { get; set; }
+
+        /// <summary>
+        /// Get the unlisted hash of the video, if any.
+        /// </summary>
+        [JsonProperty("hash", NullValueHandling = NullValueHandling.Ignore)]
+        public string Hash { get; set; }
 
         /// <summary>
         /// Gets or sets the color of the Vimeo branding.
@@ -80,9 +86,34 @@ namespace Limbo.Umbraco.Vimeo.Options {
         /// Initializes a new instance based on the specified <paramref name="videoId"/>.
         /// </summary>
         /// <param name="videoId">The ID of the video.</param>
+        /// <param name="hash">The unlisted hash of the video, if any.</param>
+        /// <param name="query">The query string from the entered URL, if present.</param>
+        public VimeoVideoOptions(long videoId, string hash, string query) {
+            VideoId = videoId;
+            Hash = hash;
+            if (string.IsNullOrWhiteSpace(query)) return;
+            UpdateFromQuery(HttpQueryString.Parse(query));
+        }
+
+        /// <summary>
+        /// Initializes a new instance based on the specified <paramref name="videoId"/>.
+        /// </summary>
+        /// <param name="videoId">The ID of the video.</param>
         /// <param name="query">The query string from the entered URL, if present.</param>
         public VimeoVideoOptions(long videoId, IHttpQueryString query) {
             VideoId = videoId;
+            if (query != null) UpdateFromQuery(query);
+        }
+
+        /// <summary>
+        /// Initializes a new instance based on the specified <paramref name="videoId"/>.
+        /// </summary>
+        /// <param name="videoId">The ID of the video.</param>
+        /// <param name="hash">The unlisted hash of the video, if any.</param>
+        /// <param name="query">The query string from the entered URL, if present.</param>
+        public VimeoVideoOptions(long videoId, string hash, IHttpQueryString query) {
+            VideoId = videoId;
+            Hash = hash;
             if (query != null) UpdateFromQuery(query);
         }
 
