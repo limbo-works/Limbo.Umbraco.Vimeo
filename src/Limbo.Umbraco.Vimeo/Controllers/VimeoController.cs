@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 using Skybrud.Social.Vimeo;
-using Skybrud.Social.Vimeo.Exceptions;
 using Skybrud.Social.Vimeo.Models.Videos;
 using Skybrud.Social.Vimeo.Options.Videos;
 using Skybrud.Social.Vimeo.Responses.Videos;
@@ -47,7 +46,7 @@ namespace Limbo.Umbraco.Vimeo.Controllers {
         public object GetVideo() {
 
             // Get the "source" parameter from either GET or POST
-            string source = HttpContext.Request.Query["source"];
+            string? source = HttpContext.Request.Query["source"];
             if (string.IsNullOrWhiteSpace(source) && HttpContext.Request.HasFormContentType) {
                 source = HttpContext.Request.Form["source"].FirstOrDefault();
             }
@@ -58,12 +57,12 @@ namespace Limbo.Umbraco.Vimeo.Controllers {
             }
 
             // Do we recognize the entered source as either a vimeo video URL or embed code?
-            if (!_vimeoService.TryGetVideoId(source, out VimeoVideoOptions options)) {
+            if (!_vimeoService.TryGetVideoId(source, out VimeoVideoOptions? options)) {
                 return BadRequest(Localize(VimeoTranslations.Errors.InvalidSource));
             }
 
-            VimeoCredentials credentials = _vimeoService.GetCredentials().FirstOrDefault();
-            if (credentials == null || !_vimeoService.TryGetHttpService(credentials, out VimeoHttpService http)) {
+            VimeoCredentials? credentials = _vimeoService.GetCredentials().FirstOrDefault();
+            if (credentials == null || !_vimeoService.TryGetHttpService(credentials, out VimeoHttpService? http)) {
                 return BadRequest(Localize(VimeoTranslations.Errors.NoCredentials));
             }
 
@@ -87,18 +86,7 @@ namespace Limbo.Umbraco.Vimeo.Controllers {
 
             } catch (Exception ex) {
 
-                Dictionary<string, object> data = new();
-
                 _logger.LogError(ex, "Failed fetching video from Vimeo API with source: {Source}", source);
-
-                data["message"] = Localize(VimeoTranslations.Errors.GetVideoFailed);
-                data["source"] = source;
-
-                if (ex is VimeoHttpException vex) {
-                    data["statusCode"] = (int) vex.Response.StatusCode;
-                    data["responseUri"] = vex.Response.ResponseUri;
-                    data["responseBody"] = JToken.Parse(vex.Response.Body);
-                }
 
                 return InternalServerError(Localize(VimeoTranslations.Errors.GetVideoFailed));
 

@@ -1,4 +1,5 @@
-﻿using Limbo.Umbraco.Video.Models.Providers;
+﻿using System.Diagnostics.CodeAnalysis;
+using Limbo.Umbraco.Video.Models.Providers;
 using Limbo.Umbraco.Video.Models.Videos;
 using Limbo.Umbraco.Vimeo.PropertyEditors;
 using Newtonsoft.Json;
@@ -49,17 +50,18 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         #region Constructors
 
         private VimeoValue(JObject json) {
-            Source = json.GetString("source");
+            Source = json.GetString("source")!;
             Provider = VimeoVideoProvider.Default;
-            Details = json.GetObject("video", VimeoVideoDetails.Parse);
-            Embed = new VimeoEmbed(Details, json.GetObject("parameters"));
+            Details = json.GetObject("video", VimeoVideoDetails.Parse)!;
+            Embed = new VimeoEmbed(Details, json.GetObject("parameters")!);
         }
 
         #endregion
 
         #region Static methods
 
-        internal static VimeoValue Parse(JObject json) {
+        [return: NotNullIfNotNull("json")]
+        internal static VimeoValue? Parse(JObject? json) {
             return json == null ? null : new VimeoValue(json);
         }
 

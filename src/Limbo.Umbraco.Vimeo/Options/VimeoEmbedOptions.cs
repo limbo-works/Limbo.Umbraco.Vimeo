@@ -25,13 +25,13 @@ namespace Limbo.Umbraco.Vimeo.Options {
         /// Gets or sets the embed URL of the video.
         /// </summary>
         [JsonProperty("url", NullValueHandling = NullValueHandling.Ignore)]
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
         /// <summary>
         /// Gets or sets the title of the embed iframe.
         /// </summary>
         [JsonProperty("title", NullValueHandling = NullValueHandling.Ignore)]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         /// <summary>
         /// Gets or sets the options for the player.
@@ -77,13 +77,13 @@ namespace Limbo.Umbraco.Vimeo.Options {
 
             if (string.IsNullOrWhiteSpace(Url)) {
                 if (VideoId == 0) throw new PropertyNotSetException(nameof(VideoId));
-                Player?.AppendToQueryString(query);
+                Player.AppendToQueryString(query);
                 return $"https://player.vimeo.com/video/{VideoId}?{query}".TrimEnd('?');
             }
 
             string[] pieces = Url.Split('?');
             if (pieces.Length > 1) query = HttpQueryString.Parse(pieces[1]);
-            Player?.AppendToQueryString(query);
+            Player.AppendToQueryString(query);
             return $"{pieces[0]}?{query}".TrimEnd('?');
 
         }

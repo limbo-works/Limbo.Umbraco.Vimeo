@@ -31,7 +31,7 @@ namespace Limbo.Umbraco.Vimeo.PropertyEditors {
 
         #region Member methods
 
-        public override IDataValueEditor GetValueEditor(object configuration) {
+        public override IDataValueEditor GetValueEditor(object? configuration) {
             IDataValueEditor editor = base.GetValueEditor(configuration);
             if (editor is DataValueEditor dve) dve.View += $"?v={VimeoPackage.InformationalVersion}";
             return editor;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using Limbo.Umbraco.Vimeo.Models.Credentials;
 using Limbo.Umbraco.Vimeo.Models.Settings;
@@ -37,7 +38,7 @@ namespace Limbo.Umbraco.Vimeo.Services {
         /// <param name="source">The source </param>
         /// <param name="options"></param>
         /// <returns></returns>
-        public bool TryGetVideoId(string source, out VimeoVideoOptions options) {
+        public bool TryGetVideoId(string source, [NotNullWhen(true)] out VimeoVideoOptions? options) {
 
             options = null;
             if (string.IsNullOrWhiteSpace(source)) return false;
@@ -55,11 +56,11 @@ namespace Limbo.Umbraco.Vimeo.Services {
             }
 
             // Split the source into URL and query string
-            (string url, string query) = source.Split('?');
+            (string? url, string? query) = source.Split('?');
 
             // Does "source" match known formats of Vimeo video URLs?
             long videoId;
-            string hash = null;
+            string? hash = null;
             if (RegexUtils.IsMatch(url, "vimeo.com/(video/|)([0-9]+)$", out Match m1)) {
                 videoId = long.Parse(m1.Groups[2].Value);
             } else if (RegexUtils.IsMatch(url, "vimeo.com/(video/|)([0-9]+)/([a-z0-9]+)$", out m1)) {
@@ -82,6 +83,7 @@ namespace Limbo.Umbraco.Vimeo.Services {
         /// </summary>
         /// <returns></returns>
         public IEnumerable<VimeoCredentials> GetCredentials() {
+            // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
             return _settings.Value.Credentials ?? Array.Empty<VimeoCredentials>();
         }
 
@@ -91,7 +93,7 @@ namespace Limbo.Umbraco.Vimeo.Services {
         /// <param name="credentials">The credentials.</param>
         /// <param name="http">When this method returns, holds the created HTTP service if successful; otherwise, <c>null</c>.</param>
         /// <returns><c>true</c> if successful; otherwise, <c>false</c>.</returns>
-        public virtual bool TryGetHttpService(VimeoCredentials credentials, out VimeoHttpService http) {
+        public virtual bool TryGetHttpService(VimeoCredentials credentials, [NotNullWhen(true)] out VimeoHttpService? http) {
 
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
 

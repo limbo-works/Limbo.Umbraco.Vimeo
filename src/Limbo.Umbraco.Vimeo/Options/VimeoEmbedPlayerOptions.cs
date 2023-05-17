@@ -2,7 +2,7 @@
 using Skybrud.Essentials.Http.Collections;
 
 namespace Limbo.Umbraco.Vimeo.Options {
-    
+
     /// <summary>
     /// Class representing the options for the Vimeo video player.
     /// </summary>
@@ -14,7 +14,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
         /// Gets or sets the color of the Vimeo branding.
         /// </summary>
         [JsonProperty("color", NullValueHandling = NullValueHandling.Ignore)]
-        public string Color { get; set; }
+        public string? Color { get; set; }
 
         /// <summary>
         /// Indicates whether the video should automatically start to play when the player loads.
@@ -56,7 +56,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
         /// <param name="query">The query string.</param>
         public void AppendToQueryString(IHttpQueryString query) {
 
-            string color = Color?.TrimStart('#');
+            string? color = Color?.TrimStart('#');
 
             if (Autoplay != null) query.Add("autoplay", Autoplay.Value ? 1 : 0);
             if (Loop != null) query.Add("loop", Loop.Value ? 1 : 0);

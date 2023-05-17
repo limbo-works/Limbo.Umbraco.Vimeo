@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Limbo.Umbraco.Video.Models.Videos;
 using Newtonsoft.Json;
@@ -46,7 +47,7 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         /// Gets the description of the video.
         /// </summary>
         [JsonProperty("description")]
-        public string Description { get; }
+        public string? Description { get; }
 
         /// <summary>
         /// Gets the duration of the video.
@@ -65,11 +66,11 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         /// Gets a list of video files of the video.
         /// </summary>
         [JsonProperty("files", NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<VideoFile> Files { get; }
+        public IEnumerable<VideoFile>? Files { get; }
 
         IEnumerable<IVideoThumbnail> IVideoDetails.Thumbnails => Thumbnails;
 
-        IEnumerable<IVideoFile> IVideoDetails.Files => Files;
+        IEnumerable<IVideoFile>? IVideoDetails.Files => Files;
 
         TimeSpan? IVideoDetails.Duration => Duration;
 
@@ -87,7 +88,7 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
             Description = Data.Description;
             Duration = Data.Duration;
             Thumbnails = Data.Pictures.Sizes.Select(x => new VimeoThumbnail(x)).ToList();
-            Files = Data.JObject!.Property("files") is null ? null : Data.Files.Select(x => new VimeoFile(x)).ToList();
+            Files = Data.JObject.Property("files") is null ? null : Data.Files.Select(x => new VimeoFile(x)).ToList();
 
         }
 
@@ -100,7 +101,8 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos {
         /// </summary>
         /// <param name="json">The instance of <see cref="JObject"/> to parse.</param>
         /// <returns>An instance of <see cref="VimeoVideoDetails"/>.</returns>
-        public static VimeoVideoDetails Parse(JObject json) {
+        [return: NotNullIfNotNull("json")]
+        public static VimeoVideoDetails? Parse(JObject? json) {
             return json == null ? null : new VimeoVideoDetails(json);
         }
 

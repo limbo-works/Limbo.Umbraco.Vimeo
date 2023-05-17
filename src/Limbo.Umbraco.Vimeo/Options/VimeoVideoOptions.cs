@@ -21,13 +21,13 @@ namespace Limbo.Umbraco.Vimeo.Options {
         /// Get the unlisted hash of the video, if any.
         /// </summary>
         [JsonProperty("hash", NullValueHandling = NullValueHandling.Ignore)]
-        public string Hash { get; set; }
+        public string? Hash { get; set; }
 
         /// <summary>
         /// Gets or sets the color of the Vimeo branding.
         /// </summary>
         [JsonProperty("color", NullValueHandling = NullValueHandling.Ignore)]
-        public string Color { get; set; }
+        public string? Color { get; set; }
 
         /// <summary>
         /// Indicates whether the video should automatically start to play when the player loads.
@@ -76,7 +76,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
         /// </summary>
         /// <param name="videoId">The ID of the video.</param>
         /// <param name="query">The query string from the entered URL, if present.</param>
-        public VimeoVideoOptions(long videoId, string query) {
+        public VimeoVideoOptions(long videoId, string? query) {
             VideoId = videoId;
             if (string.IsNullOrWhiteSpace(query)) return;
             UpdateFromQuery(HttpQueryString.Parse(query));
@@ -88,7 +88,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
         /// <param name="videoId">The ID of the video.</param>
         /// <param name="hash">The unlisted hash of the video, if any.</param>
         /// <param name="query">The query string from the entered URL, if present.</param>
-        public VimeoVideoOptions(long videoId, string hash, string query) {
+        public VimeoVideoOptions(long videoId, string? hash, string? query) {
             VideoId = videoId;
             Hash = hash;
             if (string.IsNullOrWhiteSpace(query)) return;
@@ -100,7 +100,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
         /// </summary>
         /// <param name="videoId">The ID of the video.</param>
         /// <param name="query">The query string from the entered URL, if present.</param>
-        public VimeoVideoOptions(long videoId, IHttpQueryString query) {
+        public VimeoVideoOptions(long videoId, IHttpQueryString? query) {
             VideoId = videoId;
             if (query != null) UpdateFromQuery(query);
         }
@@ -111,7 +111,7 @@ namespace Limbo.Umbraco.Vimeo.Options {
         /// <param name="videoId">The ID of the video.</param>
         /// <param name="hash">The unlisted hash of the video, if any.</param>
         /// <param name="query">The query string from the entered URL, if present.</param>
-        public VimeoVideoOptions(long videoId, string hash, IHttpQueryString query) {
+        public VimeoVideoOptions(long videoId, string hash, IHttpQueryString? query) {
             VideoId = videoId;
             Hash = hash;
             if (query != null) UpdateFromQuery(query);
