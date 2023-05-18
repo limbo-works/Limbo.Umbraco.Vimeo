@@ -8,6 +8,7 @@ using Limbo.Umbraco.Vimeo.Options;
 using Microsoft.Extensions.Options;
 using Skybrud.Essentials.Collections.Extensions;
 using Skybrud.Essentials.Strings;
+using Skybrud.Essentials.Strings.Extensions;
 using Skybrud.Social.Vimeo;
 
 namespace Limbo.Umbraco.Vimeo.Services {
@@ -60,14 +61,10 @@ namespace Limbo.Umbraco.Vimeo.Services {
 
             // Does "source" match known formats of Vimeo video URLs?
             long videoId;
-            string? hash = null;
-            if (RegexUtils.IsMatch(url, "vimeo.com/(video/|)([0-9]+)$", out Match m1)) {
-                videoId = long.Parse(m1.Groups[2].Value);
-            } else if (RegexUtils.IsMatch(url, "vimeo.com/(video/|)([0-9]+)/([a-z0-9]+)$", out m1)) {
-                videoId = long.Parse(m1.Groups[2].Value);
-                hash = m1.Groups[3].Value;
-            } else if (RegexUtils.IsMatch(url, "vimeo.com/manage/videos/([0-9]+)$", out m1)) {
-                videoId = long.Parse(m1.Groups[1].Value);
+            string? hash;
+            if (RegexUtils.IsMatch(url, VimeoConstants.RegexUrlPattern, out Match match)) {
+                videoId = long.Parse(match.Groups["id"].Value);
+                hash = match.Groups["hash"].Value.NullIfWhiteSpace();
             } else {
                 return false;
             }
