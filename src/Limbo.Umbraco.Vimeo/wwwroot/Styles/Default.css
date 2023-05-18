@@ -12,10 +12,12 @@
 }
 .limbo-vimeo-video input {
   width: 100%;
+  max-width: 1100px;
   flex: 1;
 }
 .limbo-vimeo-video textarea {
   width: 100%;
+  max-width: 1100px;
   flex: 1;
   min-height: 110px;
   resize: vertical;
@@ -44,14 +46,13 @@
   border: 1px solid #e9e9eb;
   border-radius: 3px;
   padding: 12px 15px;
-  max-width: 800px;
   box-sizing: border-box;
+  max-width: 1100px;
+  flex-wrap: wrap;
+  gap: 20px 10px;
 }
 .limbo-vimeo-video-details h5 {
   margin: 15px 0 3px 0;
-}
-.limbo-vimeo-video-details img {
-  margin-right: 10px;
 }
 .limbo-vimeo-video-details table {
   background: none;
@@ -71,4 +72,7 @@
 }
 .limbo-vimeo-video pre {
   display: none;
+}
+.limbo-vimeo-thumbnail {
+  min-width: 200px;
 }
