@@ -70,6 +70,13 @@
 .limbo-vimeo-video-details table tr + tr td {
   padding-top: 4px;
 }
+.limbo-vimeo-video-description {
+  margin-top: 15px;
+  white-space: pre-wrap;
+  color: #333;
+  line-height: 20px;
+  font-size: 14px;
+}
 .limbo-vimeo-video pre {
   display: none;
 }

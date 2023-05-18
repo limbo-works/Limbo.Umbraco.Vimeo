@@ -107,6 +107,7 @@
         if (!rawVideoData) {
             vm.videoId = null;
             vm.title = null;
+            vm.description = null;
             vm.duration = null;
             vm.thumbnail = null;
             return;
@@ -114,6 +115,7 @@
 
         vm.videoId = rawVideoData.uri.split("/")[2].split(":")[0];
         vm.title = rawVideoData.name;
+        vm.description = rawVideoData.description;
         vm.thumbnail = vimeoService.getThumbnail(rawVideoData);
 
         vm.duration = rawVideoData.duration;
