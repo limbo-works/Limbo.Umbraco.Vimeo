@@ -112,7 +112,7 @@
             return;
         }
 
-        vm.videoId = rawVideoData.uri.split("/")[2];
+        vm.videoId = rawVideoData.uri.split("/")[2].split(":")[0];
         vm.title = rawVideoData.name;
         vm.thumbnail = vimeoService.getThumbnail(rawVideoData);
 
