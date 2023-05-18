@@ -124,6 +124,9 @@
 
     function init() {
 
+        if (!$scope.model.config) $scope.model.config = {};
+        $scope.model.hideLabel = $scope.model.config.hideLabel === true;
+
         if (!$scope.model.value || $scope.model.value === "null") {
             $scope.model.value = null;
             return;
