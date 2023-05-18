@@ -49,7 +49,7 @@
   box-sizing: border-box;
   max-width: 1100px;
   flex-wrap: wrap;
-  gap: 20px 10px;
+  gap: 20px 15px;
 }
 .limbo-vimeo-video-details h5 {
   margin: 15px 0 3px 0;
@@ -69,6 +69,9 @@
 .limbo-vimeo-video-details table tr + tr th,
 .limbo-vimeo-video-details table tr + tr td {
   padding-top: 4px;
+}
+.limbo-vimeo-video-info {
+  flex: 1;
 }
 .limbo-vimeo-video-description {
   margin-top: 15px;
