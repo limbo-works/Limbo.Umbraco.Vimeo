@@ -1,8 +1,10 @@
-# Limbo Vimeo [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md) [![NuGet](https://img.shields.io/nuget/v/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) [![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) [![Umbraco Marketplace](https://img.shields.io/badge/umbraco-marketplace-%233544B1)](https://marketplace.umbraco.com/package/limbo.umbraco.vimeo)
+# Limbo Vimeo
+
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md) [![NuGet](https://img.shields.io/nuget/v/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) [![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) [![Umbraco Marketplace](https://img.shields.io/badge/umbraco-marketplace-%233544B1)](https://marketplace.umbraco.com/package/limbo.umbraco.vimeo)
 
 This package features a property editor for inserting (via URL or embed code) a Vimeo video. The property editor saves a bit of information about the video, which then will be availble in C#.
 
-The latest version (`v2.x`) supports Umbraco 10 and 11, whereas older releases (`v1.x`) support Umbraco 9.
+The latest version (`v2.x`) supports Umbraco 10, 11 and 12, whereas older releases (`v1.x`) supports Umbraco 9.
 
 <table>
   <tr>
@@ -12,7 +14,7 @@ The latest version (`v2.x`) supports Umbraco 10 and 11, whereas older releases (
   <tr>
     <td><strong>Umbraco:</strong></td>
     <td>
-      Umbraco 10 and 11
+      Umbraco 10, 11 and 12
       <sub><sup>(and <a href="https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v1/main">Umbraco 9</a>)</sup></sub>
     </td>
   </tr>
@@ -33,7 +35,7 @@ The latest version (`v2.x`) supports Umbraco 10 and 11, whereas older releases (
 
 ## Installation
 
-Install the <a href="https://www.nuget.org/packages/Limbo.Umbraco.Vimeo/2.0.0" target="_blank">NuGet package</a> - either via the .NET CLI:
+Install the package via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) - either via the .NET CLI:
 
 ```
 dotnet add package Limbo.Umbraco.Vimeo
