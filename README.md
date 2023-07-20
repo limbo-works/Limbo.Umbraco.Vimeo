@@ -2,7 +2,7 @@
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md) [![NuGet](https://img.shields.io/nuget/v/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) [![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) [![Umbraco Marketplace](https://img.shields.io/badge/umbraco-marketplace-%233544B1)](https://marketplace.umbraco.com/package/limbo.umbraco.vimeo)
 
-This package features a property editor for inserting (via URL or embed code) a Vimeo video. The property editor saves a bit of information about the video, which then will be availble in C#.
+**Limbo.Umbraco.Vimeo** is a package for Umbraco 10+ that features a property editor for inserting (via URL or embed code) a Vimeo video. The property editor saves a bit of information about the video, which then will be availble in C#.
 
 The latest version (`v2.x`) supports Umbraco 10, 11 and 12, whereas older releases (`v1.x`) supports Umbraco 9.
 
