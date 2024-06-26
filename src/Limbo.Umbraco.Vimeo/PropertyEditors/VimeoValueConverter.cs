@@ -2,6 +2,7 @@
 using Limbo.Umbraco.Vimeo.Models.Videos;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Newtonsoft;
+using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PropertyEditors;
 using Umbraco.Extensions;
@@ -28,6 +29,8 @@ namespace Limbo.Umbraco.Vimeo.PropertyEditors {
         }
 
         public override object? ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview) {
+            if (inter is not JObject json) return null;
+            if (json.GetObject("video") is null) return null;
             return VimeoValue.Parse(inter as JObject);
         }
 
