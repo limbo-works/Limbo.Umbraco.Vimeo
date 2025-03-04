@@ -16,13 +16,13 @@ public class VimeoManifestFilter : IManifestFilter {
             PackageName = VimeoPackage.Name,
             Version = VimeoPackage.InformationalVersion,
             BundleOptions = BundleOptions.Independent,
-            Scripts = new[] {
+            Scripts = [
                 "/App_Plugins/Limbo.Umbraco.Vimeo/Scripts/Services/VimeoService.js",
                 "/App_Plugins/Limbo.Umbraco.Vimeo/Scripts/Controllers/Video.js"
-            },
-            Stylesheets = new[] {
+            ],
+            Stylesheets = [
                 "/App_Plugins/Limbo.Umbraco.Vimeo/Styles/Default.css"
-            }
+            ]
         };
 
         // The "PackageId" property isn't available prior to Umbraco 12, and since the package is build against

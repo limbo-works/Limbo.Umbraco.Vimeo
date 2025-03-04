@@ -81,7 +81,7 @@ public class VimeoService {
     /// <returns></returns>
     public IEnumerable<VimeoCredentials> GetCredentials() {
         // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
-        return _settings.Value.Credentials ?? Array.Empty<VimeoCredentials>();
+        return _settings.Value.Credentials ?? [];
     }
 
     /// <summary>

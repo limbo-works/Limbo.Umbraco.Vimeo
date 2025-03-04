@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Limbo.Umbraco.Vimeo.Constants;
@@ -75,7 +74,7 @@ public class VimeoController : UmbracoAuthorizedApiController {
 
             // Attempt to fetch information baout the video from the Vimeo API
             VimeoVideoListResponse response = http.Videos.SearchVideos(new VimeoSearchVideosOptions {
-                Links = new List<string> { url }
+                Links = [url]
             });
 
             // Return an error to the user if the video wasn't found
