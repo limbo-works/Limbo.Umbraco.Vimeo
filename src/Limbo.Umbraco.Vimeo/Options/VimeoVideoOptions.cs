@@ -5,7 +5,7 @@ using Skybrud.Social.Vimeo.Models.Videos;
 namespace Limbo.Umbraco.Vimeo.Options;
 
 /// <summary>
-/// Class with options describing a video - eg. based on a URL or embed code.
+/// Class with options describing a video - e.g. based on a URL or embed code.
 /// </summary>
 public class VimeoVideoOptions {
 

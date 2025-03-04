@@ -6,7 +6,7 @@ using Umbraco.Cms.Core.Services;
 
 namespace Limbo.Umbraco.Vimeo.PropertyEditors;
 
-public class VimeoConfigurationEditor : ConfigurationEditor<VimeoConfiguration> {
+public class VimeoConfigurationEditor : ConfigurationEditor<VimeoVideoConfiguration> {
 
     public VimeoConfigurationEditor(IIOHelper ioHelper, IEditorConfigurationParser editorConfigurationParser) : base(ioHelper, editorConfigurationParser) { }
 

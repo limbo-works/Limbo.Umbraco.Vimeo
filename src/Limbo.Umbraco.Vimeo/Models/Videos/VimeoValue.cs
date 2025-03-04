@@ -4,12 +4,12 @@ using Limbo.Umbraco.Video.Models.Videos;
 using Limbo.Umbraco.Vimeo.PropertyEditors;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Extensions;
+using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Umbraco.Vimeo.Models.Videos;
 
 /// <summary>
-/// Class representing the value of the <see cref="VimeoEditor"/> property editor.
+/// Class representing the value of the <see cref="VimeoVideoPropertyEditor"/> property editor.
 /// </summary>
 public class VimeoValue : IVideoValue {
 
@@ -50,7 +50,7 @@ public class VimeoValue : IVideoValue {
     #region Constructors
 
     private VimeoValue(JObject json) {
-        Source = json.GetString("source")!;
+        Source = json.GetRequiredString("source");
         Provider = VimeoVideoProvider.Default;
         Details = json.GetObject("video", VimeoVideoDetails.Parse)!;
         Embed = new VimeoEmbed(Details, json.GetObject("parameters")!);
@@ -60,7 +60,7 @@ public class VimeoValue : IVideoValue {
 
     #region Static methods
 
-    [return: NotNullIfNotNull("json")]
+    [return: NotNullIfNotNull(nameof(json))]
     internal static VimeoValue? Parse(JObject? json) {
         return json == null ? null : new VimeoValue(json);
     }

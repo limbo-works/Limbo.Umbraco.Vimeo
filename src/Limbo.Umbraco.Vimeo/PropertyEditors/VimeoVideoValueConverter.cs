@@ -12,12 +12,12 @@ using Umbraco.Extensions;
 namespace Limbo.Umbraco.Vimeo.PropertyEditors;
 
 /// <summary>
-/// Property value converter for <see cref="VimeoEditor"/>.
+/// Property value converter for <see cref="VimeoVideoPropertyEditor"/>.
 /// </summary>
-public class VimeoValueConverter : PropertyValueConverterBase {
+public class VimeoVideoValueConverter : PropertyValueConverterBase {
 
     public override bool IsConverter(IPublishedPropertyType propertyType) {
-        return propertyType.EditorAlias == VimeoEditor.EditorAlias;
+        return propertyType.EditorAlias == VimeoVideoPropertyEditor.EditorAlias;
     }
 
     public override object? ConvertSourceToIntermediate(IPublishedElement owner, IPublishedPropertyType propertyType, object? source, bool preview) {
@@ -30,12 +30,7 @@ public class VimeoValueConverter : PropertyValueConverterBase {
 
     public override object? ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview) {
         if (inter is not JObject json) return null;
-        if (json.GetObject("video") is null) return null;
-        return VimeoValue.Parse(inter as JObject);
-    }
-
-    public override object? ConvertIntermediateToXPath(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview) {
-        return null;
+        return json.GetObject("video") is null ? null : VimeoValue.Parse(json);
     }
 
     public override Type GetPropertyValueType(IPublishedPropertyType propertyType) {

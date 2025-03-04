@@ -11,26 +11,26 @@ namespace Limbo.Umbraco.Vimeo.PropertyEditors;
 /// Represents a block list property editor.
 /// </summary>
 [DataEditor(EditorAlias, EditorName, EditorView, ValueType = ValueTypes.Json, Group = "Limbo", Icon = EditorIcon)]
-public class VimeoEditor : DataEditor {
+public class VimeoVideoPropertyEditor : DataEditor {
 
     private readonly IIOHelper _ioHelper;
     private readonly IEditorConfigurationParser _editorConfigurationParser;
 
     #region Constants
 
-    internal const string EditorAlias = "Limbo.Umbraco.Vimeo";
+    public const string EditorAlias = "Limbo.Umbraco.Vimeo";
 
-    internal const string EditorName = "Limbo Vimeo Video";
+    public const string EditorName = "Limbo Vimeo Video";
 
-    internal const string EditorView = "/App_Plugins/Limbo.Umbraco.Vimeo/Views/Video.html";
+    public const string EditorView = "/App_Plugins/Limbo.Umbraco.Vimeo/Views/Video.html";
 
-    internal const string EditorIcon = "icon-limbo-vimeo-alt color-limbo";
+    public const string EditorIcon = "icon-limbo-vimeo-alt color-limbo";
 
     #endregion
 
     #region Constructors
 
-    public VimeoEditor(IIOHelper ioHelper, IEditorConfigurationParser editorConfigurationParser, IDataValueEditorFactory dataValueEditorFactory) : base(dataValueEditorFactory) {
+    public VimeoVideoPropertyEditor(IIOHelper ioHelper, IEditorConfigurationParser editorConfigurationParser, IDataValueEditorFactory dataValueEditorFactory) : base(dataValueEditorFactory) {
         _ioHelper = ioHelper;
         _editorConfigurationParser = editorConfigurationParser;
     }

@@ -5,7 +5,7 @@ using Umbraco.Cms.Core.PropertyEditors;
 
 namespace Limbo.Umbraco.Vimeo.PropertyEditors;
 
-public class VimeoConfiguration {
+public class VimeoVideoConfiguration {
 
     [ConfigurationField("hideLabel", "Hide label", "boolean", Description = "Select whether the label and description of properties using this data type should be hidden.<br /><br />Hiding the label and description can be useful in some cases - eg. to give the video picker a bit more horizontal space.")]
     [JsonProperty("hideLabel")]

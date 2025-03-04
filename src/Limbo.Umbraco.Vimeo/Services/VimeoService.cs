@@ -80,8 +80,7 @@ public class VimeoService {
     /// </summary>
     /// <returns></returns>
     public IEnumerable<VimeoCredentials> GetCredentials() {
-        // ReSharper disable once NullCoalescingConditionIsAlwaysNotNullAccordingToAPIContract
-        return _settings.Value.Credentials ?? [];
+        return _settings.Value.Credentials;
     }
 
     /// <summary>
@@ -92,7 +91,7 @@ public class VimeoService {
     /// <returns><c>true</c> if successful; otherwise, <c>false</c>.</returns>
     public virtual bool TryGetHttpService(VimeoCredentials credentials, [NotNullWhen(true)] out VimeoHttpService? http) {
 
-        if (credentials == null) throw new ArgumentNullException(nameof(credentials));
+        ArgumentNullException.ThrowIfNull(credentials);
 
         if (!string.IsNullOrWhiteSpace(credentials.AccessToken)) {
             http = VimeoHttpService.CreateFromAccessToken(credentials.AccessToken);

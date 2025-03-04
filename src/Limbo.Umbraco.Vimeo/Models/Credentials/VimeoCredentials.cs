@@ -11,26 +11,21 @@ public class VimeoCredentials : ICredentials {
     /// <summary>
     /// Gets the key of the credentials.
     /// </summary>
-    public Guid Key { get; internal set; }
+    public required Guid Key { get; init; }
 
     /// <summary>
     /// Gets the friendly name of the credentials.
     /// </summary>
-    public string Name { get; internal set; } = null!;
+    public required string Name { get; init; }
 
     /// <summary>
     /// Gets the description of the credentials.
     /// </summary>
-    public string? Description { get; internal set; }
+    public string? Description { get; init; }
 
     /// <summary>
     /// If configured, gets the Vimeo access token.
     /// </summary>
-    public string AccessToken { get; internal set; } = null!;
-
-    /// <summary>
-    /// Initializes a new instance with default options.
-    /// </summary>
-    public VimeoCredentials() { }
+    public required string AccessToken { get; init; }
 
 }

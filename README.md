@@ -4,7 +4,7 @@
 
 **Limbo.Umbraco.Vimeo** is a package for Umbraco 10+ that features a property editor for inserting (via URL or embed code) a Vimeo video. The property editor saves a bit of information about the video, which then will be availble in C#.
 
-The latest version (`v2.x`) supports Umbraco 10, 11 and 12, whereas older releases (`v1.x`) supports Umbraco 9.
+The latest version (`v13.x`) supports Umbraco 103, whereas older releases (`v1.x`) supports Umbraco 9.
 
 <table>
   <tr>
@@ -14,15 +14,15 @@ The latest version (`v2.x`) supports Umbraco 10, 11 and 12, whereas older releas
   <tr>
     <td><strong>Umbraco:</strong></td>
     <td>
-      Umbraco 10, 11 and 12
-      <sub><sup>(and <a href="https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v1/main">Umbraco 9</a>)</sup></sub>
+      Umbraco 13
+      <sub><sup>(and <a href="https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v2/main">Umbraco 10-12</a>)</sup></sub>
     </td>
   </tr>
   <tr>
     <td><strong>Target Framework:</strong></td>
     <td>
-      .NET 6
-      <sub><sup>(and <a href="https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v1/main">.NET 5</a>)</sup></sub>
+      .NET 8
+      <sub><sup>(and <a href="https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v2/main">.NET 6</a>)</sup></sub>
     </td>
   </tr>
 </table>

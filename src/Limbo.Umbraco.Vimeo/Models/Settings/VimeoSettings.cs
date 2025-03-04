@@ -1,4 +1,5 @@
-﻿using Limbo.Umbraco.Vimeo.Models.Credentials;
+﻿using System.Collections.Generic;
+using Limbo.Umbraco.Vimeo.Models.Credentials;
 using Umbraco.Cms.Core.Configuration.Models;
 
 namespace Limbo.Umbraco.Vimeo.Models.Settings;
@@ -12,6 +13,6 @@ public class VimeoSettings {
     /// <summary>
     /// Gets a collection of the credentials configured for YouTube.
     /// </summary>
-    public VimeoCredentials[] Credentials { get; internal set; } = null!;
+    public List<VimeoCredentials> Credentials { get; set; } = [];
 
 }
