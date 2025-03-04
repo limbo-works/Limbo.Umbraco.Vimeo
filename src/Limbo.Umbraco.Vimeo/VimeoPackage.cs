@@ -27,7 +27,7 @@ public class VimeoPackage {
     /// <summary>
     /// Gets the informational version of the package.
     /// </summary>
-    public static readonly string InformationalVersion = ReflectionUtils.GetInformationalVersion(typeof(VimeoPackage));
+    public static readonly string InformationalVersion = ReflectionUtils.GetInformationalVersion(typeof(VimeoPackage)).Split('+')[0];
 
     /// <summary>
     /// Gets the semantic version of the package.
@@ -47,6 +47,6 @@ public class VimeoPackage {
     /// <summary>
     /// Gets the URL of the documentation for this package.
     /// </summary>
-    public const string DocumentationUrl = "https://packages.limbo.works/limbo.umbraco.vimeo/v2/docs/";
+    public const string DocumentationUrl = "https://packages.limbo.works/limbo.umbraco.vimeo/v13/docs/";
 
 }
