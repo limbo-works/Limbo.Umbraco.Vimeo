@@ -86,3 +86,49 @@
 .limbo-vimeo-thumbnail {
   min-width: 200px;
 }
+.limbo-vimeo-color > div {
+  display: flex;
+  gap: 5px;
+}
+.limbo-vimeo-color .umb-color-picker .sp-replacer {
+  margin-right: 0;
+  height: 32px;
+  width: 39px;
+}
+.limbo-vimeo-color-picker {
+  display: flex;
+  gap: 7px;
+  line-height: 33px;
+  margin-left: 25px;
+  font-size: 13px;
+}
+.limbo-vimeo-button-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.limbo-vimeo-button-list > button {
+  appearance: none;
+  display: inline-block;
+  -webkit-appearance: none;
+  border: 0;
+  font-weight: bold;
+  color: #1A2650;
+  line-height: 1;
+  background-color: rgba(216, 215, 217, 0.5);
+  font-size: 13px;
+  margin: 0;
+  padding: 10px 20px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  position: relative;
+  cursor: pointer;
+}
+.limbo-vimeo-button-list > button:hover {
+  background-color: rgba(216, 215, 217, 0.3);
+  color: #2152a3;
+}
+.limbo-vimeo-button-list > button.--active {
+  background-color: #F5C1BC;
+  color: #1A2650;
+}

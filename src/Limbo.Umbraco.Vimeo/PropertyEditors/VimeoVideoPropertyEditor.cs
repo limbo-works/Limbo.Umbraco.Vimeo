@@ -46,7 +46,7 @@ public class VimeoVideoPropertyEditor : DataEditor {
     }
 
     protected override IConfigurationEditor CreateConfigurationEditor() {
-        return new VimeoConfigurationEditor(_ioHelper, _editorConfigurationParser);
+        return new VimeoVideoConfigurationEditor(_ioHelper, _editorConfigurationParser);
     }
 
     #endregion

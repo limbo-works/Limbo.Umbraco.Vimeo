@@ -30,7 +30,7 @@ public class VimeoVideoValueConverter : PropertyValueConverterBase {
 
     public override object? ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview) {
         if (inter is not JObject json) return null;
-        return json.GetObject("video") is null ? null : VimeoVideoValue.Parse(json);
+        return json.GetObject("video") is null ? null : VimeoVideoValue.Parse(json, propertyType.DataType.Configuration as VimeoVideoConfiguration);
     }
 
     public override Type GetPropertyValueType(IPublishedPropertyType propertyType) {

@@ -18,6 +18,8 @@ public class VimeoManifestFilter : IManifestFilter {
             BundleOptions = BundleOptions.Independent,
             Scripts = [
                 "/App_Plugins/Limbo.Umbraco.Vimeo/Scripts/Services/VimeoService.js",
+                "/App_Plugins/Limbo.Umbraco.Vimeo/Scripts/Controllers/Color.js",
+                "/App_Plugins/Limbo.Umbraco.Vimeo/Scripts/Controllers/ButtonList.js",
                 "/App_Plugins/Limbo.Umbraco.Vimeo/Scripts/Controllers/Video.js"
             ],
             Stylesheets = [

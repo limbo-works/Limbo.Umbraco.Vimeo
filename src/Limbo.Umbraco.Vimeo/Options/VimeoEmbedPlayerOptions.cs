@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Limbo.Umbraco.Vimeo.Models.Videos;
+using Newtonsoft.Json;
 using Skybrud.Essentials.Http.Collections;
 
 namespace Limbo.Umbraco.Vimeo.Options;
@@ -45,6 +46,24 @@ public class VimeoEmbedPlayerOptions {
     /// </summary>
     [JsonProperty("portrait", NullValueHandling = NullValueHandling.Ignore)]
     public bool? ShowPortrait { get; set; }
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Initializes a new instance with default options.
+    /// </summary>
+    public VimeoEmbedPlayerOptions() { }
+
+    internal VimeoEmbedPlayerOptions(VimeoVideoEmbed embed) {
+        Color = embed.Color;
+        Autoplay = embed.Autoplay;
+        Loop = embed.Loop;
+        ShowTitle = embed.ShowTitle;
+        ShowByLine = embed.ShowByLine;
+        ShowPortrait = embed.ShowPortrait;
+    }
 
     #endregion
 

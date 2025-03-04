@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Html;
 using Newtonsoft.Json;
 using Skybrud.Essentials.Common;
 using Skybrud.Essentials.Http.Collections;
-using Skybrud.Essentials.Json.Extensions;
 using Skybrud.Social.Vimeo.Models.Videos;
+
+using VimeoVideoEmbed = Limbo.Umbraco.Vimeo.Models.Videos.VimeoVideoEmbed;
 
 namespace Limbo.Umbraco.Vimeo.Options;
 
@@ -58,9 +59,21 @@ public class VimeoEmbedOptions {
     /// <param name="video">The Vimeo video.</param>
     public VimeoEmbedOptions(VimeoVideo video) {
         VideoId = video.Id;
-        Url = video.JObject.GetString("player_embed_url");
+        Url = video.PlayerEmbedUrl;
         Title = video.Name;
         Player = new VimeoEmbedPlayerOptions();
+    }
+
+    /// <summary>
+    /// Initializes a new instance based on the specified <paramref name="video"/>.
+    /// </summary>
+    /// <param name="video">The Vimeo video.</param>
+    /// <param name="embed">The embed details.</param>
+    internal VimeoEmbedOptions(VimeoVideo video, VimeoVideoEmbed embed) {
+        VideoId = video.Id;
+        Url = video.PlayerEmbedUrl;
+        Title = video.Name;
+        Player = new VimeoEmbedPlayerOptions(embed);
     }
 
     #endregion

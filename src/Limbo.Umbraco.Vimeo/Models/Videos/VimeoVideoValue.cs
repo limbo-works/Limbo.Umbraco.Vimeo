@@ -28,6 +28,12 @@ public class VimeoVideoValue : IVideoValue {
     public VimeoVideoProvider Provider { get; }
 
     /// <summary>
+    /// Gets the embed parameters specified for the video.
+    /// </summary>
+    [JsonIgnore]
+    public VimeoVideoParameters Parameters { get; }
+
+    /// <summary>
     /// Gets the details about the picked video.
     /// </summary>
     [JsonProperty("details")]
@@ -49,11 +55,12 @@ public class VimeoVideoValue : IVideoValue {
 
     #region Constructors
 
-    private VimeoVideoValue(JObject json) {
+    private VimeoVideoValue(JObject json, VimeoVideoConfiguration? config) {
         Source = json.GetRequiredString("source");
         Provider = VimeoVideoProvider.Default;
+        Parameters = json.GetObject("parameters", VimeoVideoParameters.Parse)!;
         Details = json.GetObject("video", VimeoVideoDetails.Parse)!;
-        Embed = new VimeoVideoEmbed(Details, json.GetObject("parameters") ?? new JObject());
+        Embed = new VimeoVideoEmbed(Details, Parameters, config);
     }
 
     #endregion
@@ -61,8 +68,8 @@ public class VimeoVideoValue : IVideoValue {
     #region Static methods
 
     [return: NotNullIfNotNull(nameof(json))]
-    internal static VimeoVideoValue? Parse(JObject? json) {
-        return json == null ? null : new VimeoVideoValue(json);
+    internal static VimeoVideoValue? Parse(JObject? json, VimeoVideoConfiguration? config) {
+        return json == null ? null : new VimeoVideoValue(json, config);
     }
 
     #endregion
