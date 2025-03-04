@@ -6,67 +6,65 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Extensions;
 
-namespace Limbo.Umbraco.Vimeo.Models.Videos {
+namespace Limbo.Umbraco.Vimeo.Models.Videos;
+
+/// <summary>
+/// Class representing the value of the <see cref="VimeoEditor"/> property editor.
+/// </summary>
+public class VimeoValue : IVideoValue {
+
+    #region Properties
 
     /// <summary>
-    /// Class representing the value of the <see cref="VimeoEditor"/> property editor.
+    /// Gets the source (URL or embed code) as entered by the user.
     /// </summary>
-    public class VimeoValue : IVideoValue {
+    [JsonProperty("source")]
+    public string Source { get; }
 
-        #region Properties
+    /// <summary>
+    /// Gets information about the video provider.
+    /// </summary>
+    [JsonProperty("provider")]
+    public VimeoVideoProvider Provider { get; }
 
-        /// <summary>
-        /// Gets the source (URL or embed code) as entered by the user.
-        /// </summary>
-        [JsonProperty("source")]
-        public string Source { get; }
+    /// <summary>
+    /// Gets the details about the picked video.
+    /// </summary>
+    [JsonProperty("details")]
+    public VimeoVideoDetails Details { get; }
 
-        /// <summary>
-        /// Gets information about the video provider.
-        /// </summary>
-        [JsonProperty("provider")]
-        public VimeoVideoProvider Provider { get; }
+    /// <summary>
+    /// Gets embed information for the video.
+    /// </summary>
+    [JsonProperty("embed")]
+    public VimeoEmbed Embed { get; }
 
-        /// <summary>
-        /// Gets the details about the picked video.
-        /// </summary>
-        [JsonProperty("details")]
-        public VimeoVideoDetails Details { get; }
+    IVideoProvider IVideoValue.Provider => Provider;
 
-        /// <summary>
-        /// Gets embed information for the video.
-        /// </summary>
-        [JsonProperty("embed")]
-        public VimeoEmbed Embed { get; }
+    IVideoDetails IVideoValue.Details => Details;
 
-        IVideoProvider IVideoValue.Provider => Provider;
+    IVideoEmbed IVideoValue.Embed => Embed;
 
-        IVideoDetails IVideoValue.Details => Details;
+    #endregion
 
-        IVideoEmbed IVideoValue.Embed => Embed;
+    #region Constructors
 
-        #endregion
-
-        #region Constructors
-
-        private VimeoValue(JObject json) {
-            Source = json.GetString("source")!;
-            Provider = VimeoVideoProvider.Default;
-            Details = json.GetObject("video", VimeoVideoDetails.Parse)!;
-            Embed = new VimeoEmbed(Details, json.GetObject("parameters")!);
-        }
-
-        #endregion
-
-        #region Static methods
-
-        [return: NotNullIfNotNull("json")]
-        internal static VimeoValue? Parse(JObject? json) {
-            return json == null ? null : new VimeoValue(json);
-        }
-
-        #endregion
-
+    private VimeoValue(JObject json) {
+        Source = json.GetString("source")!;
+        Provider = VimeoVideoProvider.Default;
+        Details = json.GetObject("video", VimeoVideoDetails.Parse)!;
+        Embed = new VimeoEmbed(Details, json.GetObject("parameters")!);
     }
+
+    #endregion
+
+    #region Static methods
+
+    [return: NotNullIfNotNull("json")]
+    internal static VimeoValue? Parse(JObject? json) {
+        return json == null ? null : new VimeoValue(json);
+    }
+
+    #endregion
 
 }

@@ -20,109 +20,107 @@ using Umbraco.Cms.Web.Common.Attributes;
 
 #pragma warning disable 1591
 
-namespace Limbo.Umbraco.Vimeo.Controllers {
+namespace Limbo.Umbraco.Vimeo.Controllers;
 
-    [PluginController("Limbo")]
-    public class VimeoController : UmbracoAuthorizedApiController {
+[PluginController("Limbo")]
+public class VimeoController : UmbracoAuthorizedApiController {
 
-        private readonly ILogger<VimeoController> _logger;
-        private readonly VimeoService _vimeoService;
-        private readonly ILocalizedTextService _localizedTextService;
+    private readonly ILogger<VimeoController> _logger;
+    private readonly VimeoService _vimeoService;
+    private readonly ILocalizedTextService _localizedTextService;
 
-        #region Constructors
+    #region Constructors
 
-        public VimeoController(ILogger<VimeoController> logger, VimeoService vimeoService, ILocalizedTextService localizedTextService) {
-            _logger = logger;
-            _vimeoService = vimeoService;
-            _localizedTextService = localizedTextService;
+    public VimeoController(ILogger<VimeoController> logger, VimeoService vimeoService, ILocalizedTextService localizedTextService) {
+        _logger = logger;
+        _vimeoService = vimeoService;
+        _localizedTextService = localizedTextService;
+    }
+
+    #endregion
+
+    #region Public API methods
+
+    [HttpGet]
+    [HttpPost]
+    public object GetVideo() {
+
+        // Get the "source" parameter from either GET or POST
+        string? source = HttpContext.Request.Query["source"];
+        if (string.IsNullOrWhiteSpace(source) && HttpContext.Request.HasFormContentType) {
+            source = HttpContext.Request.Form["source"].FirstOrDefault();
         }
 
-        #endregion
+        // Return an error if "source" is missing
+        if (string.IsNullOrWhiteSpace(source)) {
+            return BadRequest(Localize(VimeoTranslations.Errors.NoSource));
+        }
 
-        #region Public API methods
+        // Do we recognize the entered source as either a vimeo video URL or embed code?
+        if (!_vimeoService.TryGetVideoId(source, out VimeoVideoOptions? options)) {
+            return BadRequest(Localize(VimeoTranslations.Errors.InvalidSource));
+        }
 
-        [HttpGet]
-        [HttpPost]
-        public object GetVideo() {
+        VimeoCredentials? credentials = _vimeoService.GetCredentials().FirstOrDefault();
+        if (credentials == null || !_vimeoService.TryGetHttpService(credentials, out VimeoHttpService? http)) {
+            return BadRequest(Localize(VimeoTranslations.Errors.NoCredentials));
+        }
 
-            // Get the "source" parameter from either GET or POST
-            string? source = HttpContext.Request.Query["source"];
-            if (string.IsNullOrWhiteSpace(source) && HttpContext.Request.HasFormContentType) {
-                source = HttpContext.Request.Form["source"].FirstOrDefault();
-            }
+        VimeoVideo video;
 
-            // Return an error if "source" is missing
-            if (string.IsNullOrWhiteSpace(source)) {
-                return BadRequest(Localize(VimeoTranslations.Errors.NoSource));
-            }
+        try {
 
-            // Do we recognize the entered source as either a vimeo video URL or embed code?
-            if (!_vimeoService.TryGetVideoId(source, out VimeoVideoOptions? options)) {
-                return BadRequest(Localize(VimeoTranslations.Errors.InvalidSource));
-            }
+            // Rebuild the video URL
+            string url = $"https://vimeo.com/{options.VideoId}{(string.IsNullOrWhiteSpace(options.Hash) ? "" : $"/{options.Hash}")}";
 
-            VimeoCredentials? credentials = _vimeoService.GetCredentials().FirstOrDefault();
-            if (credentials == null || !_vimeoService.TryGetHttpService(credentials, out VimeoHttpService? http)) {
-                return BadRequest(Localize(VimeoTranslations.Errors.NoCredentials));
-            }
+            // Attempt to fetch information baout the video from the Vimeo API
+            VimeoVideoListResponse response = http.Videos.SearchVideos(new VimeoSearchVideosOptions {
+                Links = new List<string> { url }
+            });
 
-            VimeoVideo video;
+            // Return an error to the user if the video wasn't found
+            if (response.Body.Data.Count == 0) return NotFound(Localize(VimeoTranslations.Errors.VideoNotFound));
 
-            try {
+            // Get the first video of the response
+            video = response.Body.Data[0];
 
-                // Rebuild the video URL
-                string url = $"https://vimeo.com/{options.VideoId}{(string.IsNullOrWhiteSpace(options.Hash) ? "" : $"/{options.Hash}")}";
+        } catch (Exception ex) {
 
-                // Attempt to fetch information baout the video from the Vimeo API
-                VimeoVideoListResponse response = http.Videos.SearchVideos(new VimeoSearchVideosOptions {
-                    Links = new List<string> { url }
-                });
+            _logger.LogError(ex, "Failed fetching video from Vimeo API with source: {Source}", source);
 
-                // Return an error to the user if the video wasn't found
-                if (response.Body.Data.Count == 0) return NotFound(Localize(VimeoTranslations.Errors.VideoNotFound));
-
-                // Get the first video of the response
-                video = response.Body.Data[0];
-
-            } catch (Exception ex) {
-
-                _logger.LogError(ex, "Failed fetching video from Vimeo API with source: {Source}", source);
-
-                return InternalServerError(Localize(VimeoTranslations.Errors.GetVideoFailed));
-
-            }
-
-            JObject parameters = JObject.FromObject(options);
-            parameters.Remove("videoId");
-
-            return new ApiVideoValue(credentials, video, parameters);
+            return InternalServerError(Localize(VimeoTranslations.Errors.GetVideoFailed));
 
         }
 
-        #endregion
+        JObject parameters = JObject.FromObject(options);
+        parameters.Remove("videoId");
 
-        #region Private helper methods
-
-        private string Localize(string alias) {
-            return _localizedTextService.Localize("limboVimeo", alias, CultureInfo.CurrentCulture);
-        }
-
-        private object BadRequest(string message) {
-            return base.BadRequest(new { message });
-        }
-
-        private object NotFound(string message) {
-            return base.NotFound(new { message });
-        }
-
-        private object InternalServerError(string message) {
-            return new JsonResult(new { message }) {
-                StatusCode = 500
-            };
-        }
-
-        #endregion
+        return new ApiVideoValue(credentials, video, parameters);
 
     }
+
+    #endregion
+
+    #region Private helper methods
+
+    private string Localize(string alias) {
+        return _localizedTextService.Localize("limboVimeo", alias, CultureInfo.CurrentCulture);
+    }
+
+    private object BadRequest(string message) {
+        return base.BadRequest(new { message });
+    }
+
+    private object NotFound(string message) {
+        return base.NotFound(new { message });
+    }
+
+    private object InternalServerError(string message) {
+        return new JsonResult(new { message }) {
+            StatusCode = 500
+        };
+    }
+
+    #endregion
 
 }

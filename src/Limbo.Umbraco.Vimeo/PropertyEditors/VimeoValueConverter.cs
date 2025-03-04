@@ -9,43 +9,41 @@ using Umbraco.Extensions;
 
 #pragma warning disable 1591
 
-namespace Limbo.Umbraco.Vimeo.PropertyEditors {
+namespace Limbo.Umbraco.Vimeo.PropertyEditors;
 
-    /// <summary>
-    /// Property value converter for <see cref="VimeoEditor"/>.
-    /// </summary>
-    public class VimeoValueConverter : PropertyValueConverterBase {
+/// <summary>
+/// Property value converter for <see cref="VimeoEditor"/>.
+/// </summary>
+public class VimeoValueConverter : PropertyValueConverterBase {
 
-        public override bool IsConverter(IPublishedPropertyType propertyType) {
-            return propertyType.EditorAlias == VimeoEditor.EditorAlias;
-        }
+    public override bool IsConverter(IPublishedPropertyType propertyType) {
+        return propertyType.EditorAlias == VimeoEditor.EditorAlias;
+    }
 
-        public override object? ConvertSourceToIntermediate(IPublishedElement owner, IPublishedPropertyType propertyType, object? source, bool preview) {
-            return source switch {
-                JObject json => json,
-                string str => str.DetectIsJson() ? JsonUtils.ParseJsonObject(str) : null,
-                _ => null
-            };
-        }
+    public override object? ConvertSourceToIntermediate(IPublishedElement owner, IPublishedPropertyType propertyType, object? source, bool preview) {
+        return source switch {
+            JObject json => json,
+            string str => str.DetectIsJson() ? JsonUtils.ParseJsonObject(str) : null,
+            _ => null
+        };
+    }
 
-        public override object? ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview) {
-            if (inter is not JObject json) return null;
-            if (json.GetObject("video") is null) return null;
-            return VimeoValue.Parse(inter as JObject);
-        }
+    public override object? ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview) {
+        if (inter is not JObject json) return null;
+        if (json.GetObject("video") is null) return null;
+        return VimeoValue.Parse(inter as JObject);
+    }
 
-        public override object? ConvertIntermediateToXPath(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview) {
-            return null;
-        }
+    public override object? ConvertIntermediateToXPath(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview) {
+        return null;
+    }
 
-        public override Type GetPropertyValueType(IPublishedPropertyType propertyType) {
-            return typeof(VimeoValue);
-        }
+    public override Type GetPropertyValueType(IPublishedPropertyType propertyType) {
+        return typeof(VimeoValue);
+    }
 
-        public override PropertyCacheLevel GetPropertyCacheLevel(IPublishedPropertyType propertyType) {
-            return PropertyCacheLevel.Element;
-        }
-
+    public override PropertyCacheLevel GetPropertyCacheLevel(IPublishedPropertyType propertyType) {
+        return PropertyCacheLevel.Element;
     }
 
 }

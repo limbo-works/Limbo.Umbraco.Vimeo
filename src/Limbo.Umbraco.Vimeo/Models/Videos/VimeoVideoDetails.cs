@@ -10,104 +10,102 @@ using Skybrud.Essentials.Json.Converters.Time;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 using Skybrud.Social.Vimeo.Models.Videos;
 
-namespace Limbo.Umbraco.Vimeo.Models.Videos {
+namespace Limbo.Umbraco.Vimeo.Models.Videos;
+
+/// <summary>
+/// Class with details about a Vimeo video.
+/// </summary>
+public class VimeoVideoDetails : JsonObjectBase, IVideoDetails {
+
+    #region Properties
 
     /// <summary>
-    /// Class with details about a Vimeo video.
+    /// Gets a reference to the <see cref="VimeoVideo"/> as received from the Vimeo API.
     /// </summary>
-    public class VimeoVideoDetails : JsonObjectBase, IVideoDetails {
+    [JsonIgnore]
+    public VimeoVideo Data { get; }
 
-        #region Properties
+    /// <summary>
+    /// Gets the ID of the video.
+    /// </summary>
+    [JsonProperty("id")]
+    public long Id { get; }
 
-        /// <summary>
-        /// Gets a reference to the <see cref="VimeoVideo"/> as received from the Vimeo API.
-        /// </summary>
-        [JsonIgnore]
-        public VimeoVideo Data { get; }
+    /// <summary>
+    /// Gets the Vimeo URL of the video.
+    /// </summary>
+    [JsonProperty("url")]
+    public string Url { get; }
 
-        /// <summary>
-        /// Gets the ID of the video.
-        /// </summary>
-        [JsonProperty("id")]
-        public long Id { get; }
+    /// <summary>
+    /// Gets the title of the video.
+    /// </summary>
+    [JsonProperty("title")]
+    public string Title { get; }
 
-        /// <summary>
-        /// Gets the Vimeo URL of the video.
-        /// </summary>
-        [JsonProperty("url")]
-        public string Url { get; }
+    /// <summary>
+    /// Gets the description of the video.
+    /// </summary>
+    [JsonProperty("description")]
+    public string? Description { get; }
 
-        /// <summary>
-        /// Gets the title of the video.
-        /// </summary>
-        [JsonProperty("title")]
-        public string Title { get; }
+    /// <summary>
+    /// Gets the duration of the video.
+    /// </summary>
+    [JsonProperty("duration")]
+    [JsonConverter(typeof(TimeSpanSecondsConverter))]
+    public TimeSpan Duration { get; }
 
-        /// <summary>
-        /// Gets the description of the video.
-        /// </summary>
-        [JsonProperty("description")]
-        public string? Description { get; }
+    /// <summary>
+    /// Gets a list of thumbnails of the video.
+    /// </summary>
+    [JsonProperty("thumbnails", NullValueHandling = NullValueHandling.Ignore)]
+    public IEnumerable<VimeoThumbnail> Thumbnails { get; }
 
-        /// <summary>
-        /// Gets the duration of the video.
-        /// </summary>
-        [JsonProperty("duration")]
-        [JsonConverter(typeof(TimeSpanSecondsConverter))]
-        public TimeSpan Duration { get; }
+    /// <summary>
+    /// Gets a list of video files of the video.
+    /// </summary>
+    [JsonProperty("files", NullValueHandling = NullValueHandling.Ignore)]
+    public IEnumerable<VideoFile>? Files { get; }
 
-        /// <summary>
-        /// Gets a list of thumbnails of the video.
-        /// </summary>
-        [JsonProperty("thumbnails", NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<VimeoThumbnail> Thumbnails { get; }
+    IEnumerable<IVideoThumbnail> IVideoDetails.Thumbnails => Thumbnails;
 
-        /// <summary>
-        /// Gets a list of video files of the video.
-        /// </summary>
-        [JsonProperty("files", NullValueHandling = NullValueHandling.Ignore)]
-        public IEnumerable<VideoFile>? Files { get; }
+    IEnumerable<IVideoFile>? IVideoDetails.Files => Files;
 
-        IEnumerable<IVideoThumbnail> IVideoDetails.Thumbnails => Thumbnails;
+    TimeSpan? IVideoDetails.Duration => Duration;
 
-        IEnumerable<IVideoFile>? IVideoDetails.Files => Files;
+    #endregion
 
-        TimeSpan? IVideoDetails.Duration => Duration;
+    #region Constructors
 
-        #endregion
+    private VimeoVideoDetails(JObject json) : base(json) {
 
-        #region Constructors
+        Data = json.GetString("_data", x => JsonUtils.ParseJsonObject(x, VimeoVideo.Parse))!;
 
-        private VimeoVideoDetails(JObject json) : base(json) {
-
-            Data = json.GetString("_data", x => JsonUtils.ParseJsonObject(x, VimeoVideo.Parse))!;
-
-            Id = Data.Id;
-            Url = Data.Link;
-            Title = Data.Name;
-            Description = Data.Description;
-            Duration = Data.Duration;
-            Thumbnails = Data.Pictures.Sizes.Select(x => new VimeoThumbnail(x)).ToList();
-            Files = Data.JObject.Property("files") is null ? null : Data.Files.Select(x => new VimeoFile(x)).ToList();
-
-        }
-
-        #endregion
-
-        #region Static methods
-
-        /// <summary>
-        /// Returns a new <see cref="VimeoVideoDetails"/> parsed from the specified <paramref name="json"/> object.
-        /// </summary>
-        /// <param name="json">The instance of <see cref="JObject"/> to parse.</param>
-        /// <returns>An instance of <see cref="VimeoVideoDetails"/>.</returns>
-        [return: NotNullIfNotNull("json")]
-        public static VimeoVideoDetails? Parse(JObject? json) {
-            return json == null ? null : new VimeoVideoDetails(json);
-        }
-
-        #endregion
+        Id = Data.Id;
+        Url = Data.Link;
+        Title = Data.Name;
+        Description = Data.Description;
+        Duration = Data.Duration;
+        Thumbnails = Data.Pictures.Sizes.Select(x => new VimeoThumbnail(x)).ToList();
+        Files = Data.JObject.Property("files") is null ? null : Data.Files.Select(x => new VimeoFile(x)).ToList();
 
     }
+
+    #endregion
+
+    #region Static methods
+
+    /// <summary>
+    /// Returns a new <see cref="VimeoVideoDetails"/> parsed from the specified <paramref name="json"/> object.
+    /// </summary>
+    /// <param name="json">The instance of <see cref="JObject"/> to parse.</param>
+    /// <returns>An instance of <see cref="VimeoVideoDetails"/>.</returns>
+    [return: NotNullIfNotNull("json")]
+    public static VimeoVideoDetails? Parse(JObject? json) {
+        return json == null ? null : new VimeoVideoDetails(json);
+    }
+
+    #endregion
 
 }

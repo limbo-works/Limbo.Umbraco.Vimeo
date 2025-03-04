@@ -4,12 +4,10 @@ using Umbraco.Cms.Core.Services;
 
 #pragma warning disable CS1591
 
-namespace Limbo.Umbraco.Vimeo.PropertyEditors {
+namespace Limbo.Umbraco.Vimeo.PropertyEditors;
 
-    public class VimeoConfigurationEditor : ConfigurationEditor<VimeoConfiguration> {
+public class VimeoConfigurationEditor : ConfigurationEditor<VimeoConfiguration> {
 
-        public VimeoConfigurationEditor(IIOHelper ioHelper, IEditorConfigurationParser editorConfigurationParser) : base(ioHelper, editorConfigurationParser) { }
-
-    }
+    public VimeoConfigurationEditor(IIOHelper ioHelper, IEditorConfigurationParser editorConfigurationParser) : base(ioHelper, editorConfigurationParser) { }
 
 }

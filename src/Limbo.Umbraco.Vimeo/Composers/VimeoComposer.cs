@@ -7,19 +7,17 @@ using Umbraco.Cms.Core.DependencyInjection;
 
 #pragma warning disable 1591
 
-namespace Limbo.Umbraco.Vimeo.Composers {
+namespace Limbo.Umbraco.Vimeo.Composers;
 
-    public class VimeoComposer : IComposer {
+public class VimeoComposer : IComposer {
 
-        public void Compose(IUmbracoBuilder builder) {
+    public void Compose(IUmbracoBuilder builder) {
 
-            builder.Services.AddSingleton<VimeoService>();
+        builder.Services.AddSingleton<VimeoService>();
 
-            builder.AddUmbracoOptions<VimeoSettings>();
+        builder.AddUmbracoOptions<VimeoSettings>();
 
-            builder.ManifestFilters().Append<VimeoManifestFilter>();
-
-        }
+        builder.ManifestFilters().Append<VimeoManifestFilter>();
 
     }
 
