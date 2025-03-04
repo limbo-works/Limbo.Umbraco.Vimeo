@@ -18,7 +18,7 @@ public class VimeoVideoValue : IVideoValue {
     /// <summary>
     /// Gets the source (URL or embed code) as entered by the user.
     /// </summary>
-    [JsonProperty("source")]
+    [JsonIgnore]
     public string Source { get; }
 
     /// <summary>
