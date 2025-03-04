@@ -11,7 +11,7 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos;
 /// <summary>
 /// Class representing the embed options of the video.
 /// </summary>
-public class VimeoEmbed : IVideoEmbed {
+public class VimeoVideoEmbed : IVideoEmbed {
 
     #region Properties
 
@@ -32,18 +32,16 @@ public class VimeoEmbed : IVideoEmbed {
 
     #region Constructors
 
-    internal VimeoEmbed(VimeoVideoDetails video, JObject parameters) {
+    internal VimeoVideoEmbed(VimeoVideoDetails video, JObject parameters) {
 
         VimeoEmbedOptions o = new(video.Data);
 
-        if (parameters != null) {
-            o.Player.Color = parameters.GetString("color");
-            o.Player.Autoplay = parameters.GetString("autoplay", ParseBoolean);
-            o.Player.Loop = parameters.GetString("loop", ParseBoolean);
-            o.Player.ShowTitle = parameters.GetString("title", ParseBoolean);
-            o.Player.ShowByLine = parameters.GetString("byline", ParseBoolean);
-            o.Player.ShowPortrait = parameters.GetString("portrait", ParseBoolean);
-        }
+        o.Player.Color = parameters.GetString("color");
+        o.Player.Autoplay = parameters.GetString("autoplay", ParseBoolean);
+        o.Player.Loop = parameters.GetString("loop", ParseBoolean);
+        o.Player.ShowTitle = parameters.GetString("title", ParseBoolean);
+        o.Player.ShowByLine = parameters.GetString("byline", ParseBoolean);
+        o.Player.ShowPortrait = parameters.GetString("portrait", ParseBoolean);
 
         Url = o.GetEmbedUrl();
         Html = o.GetEmbedCode();

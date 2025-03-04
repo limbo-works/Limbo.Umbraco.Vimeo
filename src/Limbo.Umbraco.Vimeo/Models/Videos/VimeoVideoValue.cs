@@ -11,7 +11,7 @@ namespace Limbo.Umbraco.Vimeo.Models.Videos;
 /// <summary>
 /// Class representing the value of the <see cref="VimeoVideoPropertyEditor"/> property editor.
 /// </summary>
-public class VimeoValue : IVideoValue {
+public class VimeoVideoValue : IVideoValue {
 
     #region Properties
 
@@ -37,7 +37,7 @@ public class VimeoValue : IVideoValue {
     /// Gets embed information for the video.
     /// </summary>
     [JsonProperty("embed")]
-    public VimeoEmbed Embed { get; }
+    public VimeoVideoEmbed Embed { get; }
 
     IVideoProvider IVideoValue.Provider => Provider;
 
@@ -49,11 +49,11 @@ public class VimeoValue : IVideoValue {
 
     #region Constructors
 
-    private VimeoValue(JObject json) {
+    private VimeoVideoValue(JObject json) {
         Source = json.GetRequiredString("source");
         Provider = VimeoVideoProvider.Default;
         Details = json.GetObject("video", VimeoVideoDetails.Parse)!;
-        Embed = new VimeoEmbed(Details, json.GetObject("parameters")!);
+        Embed = new VimeoVideoEmbed(Details, json.GetObject("parameters") ?? new JObject());
     }
 
     #endregion
@@ -61,8 +61,8 @@ public class VimeoValue : IVideoValue {
     #region Static methods
 
     [return: NotNullIfNotNull(nameof(json))]
-    internal static VimeoValue? Parse(JObject? json) {
-        return json == null ? null : new VimeoValue(json);
+    internal static VimeoVideoValue? Parse(JObject? json) {
+        return json == null ? null : new VimeoVideoValue(json);
     }
 
     #endregion

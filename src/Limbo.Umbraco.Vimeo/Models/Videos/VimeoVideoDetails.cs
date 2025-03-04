@@ -60,7 +60,7 @@ public class VimeoVideoDetails : JsonObjectBase, IVideoDetails {
     /// Gets a list of thumbnails of the video.
     /// </summary>
     [JsonProperty("thumbnails", NullValueHandling = NullValueHandling.Ignore)]
-    public IEnumerable<VimeoThumbnail> Thumbnails { get; }
+    public IEnumerable<VimeoVideoThumbnail> Thumbnails { get; }
 
     /// <summary>
     /// Gets a list of video files of the video.
@@ -87,8 +87,8 @@ public class VimeoVideoDetails : JsonObjectBase, IVideoDetails {
         Title = Data.Name;
         Description = Data.Description;
         Duration = Data.Duration;
-        Thumbnails = Data.Pictures.Sizes.Select(x => new VimeoThumbnail(x)).ToList();
-        Files = Data.JObject.Property("files") is null ? null : Data.Files.Select(x => new VimeoFile(x)).ToList();
+        Thumbnails = Data.Pictures.Sizes.Select(x => new VimeoVideoThumbnail(x)).ToList();
+        Files = Data.JObject.Property("files") is null ? null : Data.Files.Select(x => new VimeoVideoFile(x)).ToList();
 
     }
 
