@@ -1,28 +1,28 @@
 # Limbo Vimeo
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md) [![NuGet](https://img.shields.io/nuget/v/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) [![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) [![Umbraco Marketplace](https://img.shields.io/badge/umbraco-marketplace-%233544B1)](https://marketplace.umbraco.com/package/limbo.umbraco.vimeo)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/limbo-works/Limbo.Umbraco.Vimeo/blob/v13/main/LICENSE.md)
+[![NuGet](https://img.shields.io/nuget/v/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo)
+[![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo)
+[![Umbraco Marketplace](https://img.shields.io/badge/umbraco-marketplace-%233544B1)](https://marketplace.umbraco.com/package/limbo.umbraco.vimeo)
+[![Limbo.Umbraco.Vimeo at packages.limbo.works](https://img.shields.io/badge/limbo-packages-blue)](https://packages.limbo.works/limbo.umbraco.vimeo/)
 
-**Limbo.Umbraco.Vimeo** is a package for Umbraco 10+ that features a property editor for inserting (via URL or embed code) a Vimeo video. The property editor saves a bit of information about the video, which then will be availble in C#.
-
-The latest version (`v13.x`) supports Umbraco 103, whereas older releases (`v1.x`) supports Umbraco 9.
+**Limbo.Umbraco.Vimeo** is a package for Umbraco that features a property editor for inserting (via URL or embed code) a Vimeo video. The property editor saves a bit of information about the video, which then will be availble in C#.
 
 <table>
   <tr>
     <td><strong>License:</strong></td>
-    <td><a href="./LICENSE.md"><strong>MIT License</strong></a></td>
+    <td><a href="https://github.com/limbo-works/Limbo.Umbraco.Vimeo/blob/v13/main/LICENSE.md"><strong>MIT License</strong></a></td>
   </tr>
   <tr>
     <td><strong>Umbraco:</strong></td>
     <td>
       Umbraco 13
-      <sub><sup>(and <a href="https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v2/main">Umbraco 10-12</a>)</sup></sub>
     </td>
   </tr>
   <tr>
     <td><strong>Target Framework:</strong></td>
     <td>
       .NET 8
-      <sub><sup>(and <a href="https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v2/main">.NET 6</a>)</sup></sub>
     </td>
   </tr>
 </table>
@@ -35,19 +35,24 @@ The latest version (`v13.x`) supports Umbraco 103, whereas older releases (`v1.x
 
 ## Installation
 
-Install the package via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo) - either via the .NET CLI:
+### Umbraco 13
+
+`v13.x` of the package targets Umbraco 13 and is available via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo). To install the package, you can use either the .NET CLI:
 
 ```
 dotnet add package Limbo.Umbraco.Vimeo
 ```
 
-or the NuGet package manager:
+or the NuGet Package Manager:
 
 ```
 Install-Package Limbo.Umbraco.Vimeo
 ```
 
+### Other versions of Umbraco
 
+- ~~[**`v2/main`**](https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v2/main) Umbraco 10, 11 and 12~~ <sub title="Umbraco 10, 11 and 12 have reached end-of-life"><sup>(EOL)</sup></sub>
+- ~~[**`v1/main`**](https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v1/main) Umbraco 9~~ <sub title="Umbraco 9 has reached end-of-life"><sup>(EOL)</sup></sub>
 
 
 
