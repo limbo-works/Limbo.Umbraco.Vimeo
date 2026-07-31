@@ -1,9 +1,13 @@
-﻿using Limbo.Umbraco.Vimeo.Manifests;
+// [CHANGE: Umbraco 17 upgrade - manifest filters replaced by IPackageManifestReader]
+// Related: Manifests/VimeoPackageManifestReader.cs, Controllers/VimeoController.cs
+
+using Limbo.Umbraco.Vimeo.Manifests;
 using Limbo.Umbraco.Vimeo.Models.Settings;
 using Limbo.Umbraco.Vimeo.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
+using Umbraco.Cms.Infrastructure.Manifest;
 
 #pragma warning disable 1591
 
@@ -17,7 +21,7 @@ public class VimeoComposer : IComposer {
 
         builder.AddUmbracoOptions<VimeoSettings>();
 
-        builder.ManifestFilters().Append<VimeoManifestFilter>();
+        builder.Services.AddSingleton<IPackageManifestReader, VimeoPackageManifestReader>();
 
     }
 

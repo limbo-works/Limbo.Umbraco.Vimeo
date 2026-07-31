@@ -1,4 +1,7 @@
-﻿using System;
+﻿// [CHANGE: Umbraco 17 upgrade - IVideoDetails in Limbo.Umbraco.Video v17 exposes IReadOnlyList instead of IEnumerable]
+// Related: VimeoVideoValue.cs, PropertyEditors/VimeoVideoValueConverter.cs, Controllers/VimeoController.cs
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -60,17 +63,17 @@ public class VimeoVideoDetails : JsonObjectBase, IVideoDetails {
     /// Gets a list of thumbnails of the video.
     /// </summary>
     [JsonProperty("thumbnails", NullValueHandling = NullValueHandling.Ignore)]
-    public IEnumerable<VimeoVideoThumbnail> Thumbnails { get; }
+    public IReadOnlyList<VimeoVideoThumbnail> Thumbnails { get; }
 
     /// <summary>
     /// Gets a list of video files of the video.
     /// </summary>
     [JsonProperty("files", NullValueHandling = NullValueHandling.Ignore)]
-    public IEnumerable<VideoFile>? Files { get; }
+    public IReadOnlyList<VideoFile>? Files { get; }
 
-    IEnumerable<IVideoThumbnail> IVideoDetails.Thumbnails => Thumbnails;
+    IReadOnlyList<IVideoThumbnail> IVideoDetails.Thumbnails => Thumbnails;
 
-    IEnumerable<IVideoFile>? IVideoDetails.Files => Files;
+    IReadOnlyList<IVideoFile>? IVideoDetails.Files => Files;
 
     TimeSpan? IVideoDetails.Duration => Duration;
 

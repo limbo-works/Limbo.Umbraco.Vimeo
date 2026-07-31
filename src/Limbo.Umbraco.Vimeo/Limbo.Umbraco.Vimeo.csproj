@@ -1,15 +1,15 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <StaticWebAssetBasePath>App_Plugins/$(AssemblyName)</StaticWebAssetBasePath>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
-    <VersionPrefix>13.0.1</VersionPrefix>
+    <VersionPrefix>17.0.0-alpha000</VersionPrefix>
     <VersionSuffix Condition="'$(Configuration)'=='Debug'">build$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmm`))</VersionSuffix>
     <Company>Limbo</Company>
     <Authors>Anders Bjerner</Authors>
@@ -23,7 +23,7 @@
     <PackageId>Limbo.Umbraco.Vimeo</PackageId>
     <PackageTags>Skybrud, Limbo, Vimeo, API, Picker, Umbraco, Integration, Umbraco-Marketplace</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.vimeo/v13/</PackageProjectUrl>
+    <PackageProjectUrl>https://packages.limbo.works/limbo.umbraco.vimeo/v17/</PackageProjectUrl>
     <PackageIcon>Limbo.png</PackageIcon>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/limbo-works/Limbo.Umbraco.Vimeo</RepositoryUrl>
@@ -32,18 +32,18 @@
   <!-- Include additional metadata in the assembly -->
   <ItemGroup>
     <AssemblyMetadata Include="PackageProjectUrl" Value="https://packages.limbo.works/limbo.umbraco.vimeo/" />
-    <AssemblyMetadata Include="DocumentationUrl" Value="https://packages.limbo.works/limbo.umbraco.iddqd/docs/v13/" />
+    <AssemblyMetadata Include="DocumentationUrl" Value="https://packages.limbo.works/limbo.umbraco.vimeo/docs/v17/" />
     <AssemblyMetadata Include="NuGetUrl" Value="https://www.nuget.org/packages/Limbo.Umbraco.Vimeo" />
     <AssemblyMetadata Include="UmbracoMarketplaceUrl" Value="https://marketplace.umbraco.com/package/limbo.umbraco.vimeo" />
   </ItemGroup>
 
   <!-- Include NuGet dependencies -->
   <ItemGroup>
-    <PackageReference Include="Limbo.Umbraco.Video" Version="13.0.0" />
+    <PackageReference Include="Limbo.Umbraco.Video" Version="17.0.0-alpha001" />
     <PackageReference Include="Skybrud.Social.Vimeo" Version="1.1.2" />
-    <PackageReference Include="Umbraco.Cms.Core" Version="[13.0.0,13.999)" NoWarn="NU1902" />
-    <PackageReference Include="Umbraco.Cms.Web.Website" Version="[13.0.0,13.999)" NoWarn="NU1902" />
-    <PackageReference Include="Umbraco.Cms.Web.BackOffice" Version="[13.0.0,13.999)" NoWarn="NU1902" />
+    <PackageReference Include="Umbraco.Cms.Core" Version="[17.0.0,17.999)" />
+    <PackageReference Include="Umbraco.Cms.Web.Website" Version="[17.0.0,17.999)" />
+    <PackageReference Include="Umbraco.Cms.Api.Management" Version="[17.0.0,17.999)" />
   </ItemGroup>
 
   <!-- Include package icon for NuGet -->
@@ -51,15 +51,47 @@
     <Content Include="../build/Limbo.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
-  <!-- Remove non-package files from the NuGet package -->
-  <ItemGroup>
-    <Content Remove="compilerconfig.json" />
-    <None Include="compilerconfig.json" />
-  </ItemGroup>
-
   <!-- Generate XML documentation -->
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
+
+  <!-- Ignore vulnerabilities from transitive dependencies of Umbraco -->
+  <ItemGroup>
+
+    <!-- Package 'MimeKit' 4.14.0 has a known moderate severity vulnerability -->
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-g7hc-96xr-gvvx" />
+
+    <!-- Package 'MailKit' 4.14.0 has a known moderate severity vulnerability -->
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-9j88-vvj5-vhgr" />
+
+    <!-- Package 'System.Security.Cryptography.Xml' 8.0.0 has known high severity vulnerabilities -->
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-23rf-6693-g89p" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-37gx-xxp4-5rgx" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-6588-8gv4-xfgh" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-8q5v-6pqq-x66h" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-cvvh-rhrc-wg4q" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-g8r8-53c2-pm3f" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-mmjf-rqrv-855v" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-w3x6-4m5h-cxqf" />
+
+    <!-- Package 'MessagePack' 3.1.4 has known high and moderate severity vulnerabilities -->
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-382j-8mxh-c7x2" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-cj9g-3mj2-g8vv" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-cxmj-83gh-fp49" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-hv8m-jj95-wg3x" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-q2h6-ghwm-5qm8" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-qhmf-xw27-6rqr" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-v72x-2h86-7f8m" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-vh6j-jc39-fggf" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-w567-gjr2-hm5j" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-wfr3-xj75-pfwh" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-2f33-pr97-265q" />
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-2x83-8g95-xh59" />
+
+    <!-- Package 'Microsoft.OpenApi' 2.3.0 has a known high severity vulnerability -->
+    <NuGetAuditSuppress Include="https://github.com/advisories/GHSA-v5pm-xwqc-g5wc" />
+
+  </ItemGroup>
 
 </Project>
