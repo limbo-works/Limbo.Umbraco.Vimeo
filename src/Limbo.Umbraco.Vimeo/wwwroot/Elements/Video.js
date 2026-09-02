@@ -252,9 +252,7 @@ export class LimboVimeoVideoElement extends UmbElementMixin(LitElement) {
 
         return html`
             <div class="editor">
-                <uui-label for="source">
-                    <umb-localize key="limboVimeo_urlOrEmbedCode">URL or embed code</umb-localize>
-                </uui-label>
+                <h5><umb-localize key="limboVimeo_urlOrEmbedCode">URL or embed code</umb-localize></h5>
                 <textarea
                             id="source"
                             label=${this.localize.term("limboVimeo_urlOrEmbedCode")}
@@ -262,7 +260,6 @@ export class LimboVimeoVideoElement extends UmbElementMixin(LitElement) {
                             class="${this.#embed ? "embed" : "url"}"
                             placeholder=${this.localize.term("limboVimeo_urlPlaceholder")}
                             @input=${this.#onSourceInput}></textarea>
-
 
                 ${when(this.#error, () => html`
                     <div class="error">
