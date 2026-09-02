@@ -22,7 +22,7 @@ public class VimeoVideoPropertyEditor : DataEditor {
     /// <summary>
     /// Gets the alias of the property editor UI registered in the package manifest.
     /// </summary>
-    public const string EditorUiAlias = $"{EditorAlias}.PropertyEditorUi";
+    public const string EditorUiAlias = $"{VimeoPackage.Alias}.PropertyEditorUi.Video";
 
     public const string EditorName = "Limbo Vimeo Video";
 

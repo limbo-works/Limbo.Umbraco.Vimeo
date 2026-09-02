@@ -15,11 +15,11 @@ public static class VimeoPropertyEditorUiAliases {
     /// <summary>
     /// Gets the alias of the property editor UI used for the tri-state configuration fields.
     /// </summary>
-    public const string ButtonList = $"{VimeoPackage.Alias}.ButtonList";
+    public const string ButtonList = $"{VimeoPackage.Alias}.PropertyEditorUi.ButtonList";
 
     /// <summary>
     /// Gets the alias of the property editor UI used for the "color" configuration field.
     /// </summary>
-    public const string Color = $"{VimeoPackage.Alias}.Color";
+    public const string Color = $"{VimeoPackage.Alias}.PropertyEditorUi.Color";
 
 }
