@@ -64,4 +64,10 @@
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
 
+  <!-- Include custom appsettings schema -->
+  <ItemGroup>
+    <None Include="appsettings-schema.Limbo.Umbraco.Vimeo.json" Pack="true" PackagePath="" />
+    <None Include="buildTransitive\Limbo.Umbraco.Vimeo.targets" Pack="true" PackagePath="buildTransitive\" />
+  </ItemGroup>
+
 </Project>
