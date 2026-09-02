@@ -160,7 +160,7 @@ export class LimboVimeoVideoElement extends UmbElementMixin(LitElement) {
         const { data, error } = await tryExecute(
             this,
             umbHttpClient.get({
-                url: "/umbraco/management/api/v1/vimeo/video",
+                url: "/umbraco/management/api/v1/limbo/vimeo/video",
                 query: { source },
                 security: [{ type: "http", scheme: "bearer" }]
             }),
