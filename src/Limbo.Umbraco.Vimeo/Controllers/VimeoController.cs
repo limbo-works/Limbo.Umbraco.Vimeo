@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 using Limbo.Umbraco.Vimeo.Constants;
 using Limbo.Umbraco.Vimeo.Models.Api;
-using Limbo.Umbraco.Vimeo.Models.Credentials;
+using Limbo.Umbraco.Vimeo.Models.Settings;
 using Limbo.Umbraco.Vimeo.Options;
 using Limbo.Umbraco.Vimeo.Services;
 using Microsoft.AspNetCore.Authorization;

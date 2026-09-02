@@ -1,4 +1,4 @@
-﻿using Limbo.Umbraco.Vimeo.Models.Credentials;
+﻿using Limbo.Umbraco.Vimeo.Models.Settings;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Skybrud.Social.Vimeo.Models.Videos;

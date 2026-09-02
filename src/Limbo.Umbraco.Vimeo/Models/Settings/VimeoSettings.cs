@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Limbo.Umbraco.Vimeo.Models.Credentials;
 using Umbraco.Cms.Core.Configuration.Models;
 
 namespace Limbo.Umbraco.Vimeo.Models.Settings;
