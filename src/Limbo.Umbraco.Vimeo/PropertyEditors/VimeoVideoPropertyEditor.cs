@@ -1,52 +1,47 @@
-﻿using Umbraco.Cms.Core.IO;
-using Umbraco.Cms.Core.Models;
+using Umbraco.Cms.Core.IO;
 using Umbraco.Cms.Core.PropertyEditors;
-using Umbraco.Cms.Core.Services;
-
-#pragma warning disable 1591
 
 namespace Limbo.Umbraco.Vimeo.PropertyEditors;
 
 /// <summary>
-/// Represents a block list property editor.
+/// Represents the property editor schema (data editor) of the Vimeo video picker.
 /// </summary>
-[DataEditor(EditorAlias, EditorName, EditorView, ValueType = ValueTypes.Json, Group = "Limbo", Icon = EditorIcon)]
+[DataEditor(EditorAlias, ValueType = ValueTypes.Json)]
 public class VimeoVideoPropertyEditor : DataEditor {
 
     private readonly IIOHelper _ioHelper;
-    private readonly IEditorConfigurationParser _editorConfigurationParser;
 
     #region Constants
 
-    public const string EditorAlias = "Limbo.Umbraco.Vimeo";
+    /// <summary>
+    /// Gets the alias of the property editor schema. The alias is the only link between this class and the
+    /// <c>propertyEditorSchemaAlias</c> of the property editor UI registered in the package manifest.
+    /// </summary>
+    public const string EditorAlias = "Limbo.Umbraco.Vimeo.Video";
+
+    /// <summary>
+    /// Gets the alias of the property editor UI registered in the package manifest.
+    /// </summary>
+    public const string EditorUiAlias = $"{EditorAlias}.PropertyEditorUi";
 
     public const string EditorName = "Limbo Vimeo Video";
 
-    public const string EditorView = "/App_Plugins/Limbo.Umbraco.Vimeo/Views/Video.html";
-
-    public const string EditorIcon = "icon-limbo-vimeo-alt color-limbo";
+    public const string EditorIcon = "icon-limbo-vimeo-alt";
 
     #endregion
 
     #region Constructors
 
-    public VimeoVideoPropertyEditor(IIOHelper ioHelper, IEditorConfigurationParser editorConfigurationParser, IDataValueEditorFactory dataValueEditorFactory) : base(dataValueEditorFactory) {
+    public VimeoVideoPropertyEditor(IIOHelper ioHelper, IDataValueEditorFactory dataValueEditorFactory) : base(dataValueEditorFactory) {
         _ioHelper = ioHelper;
-        _editorConfigurationParser = editorConfigurationParser;
     }
 
     #endregion
 
     #region Member methods
 
-    public override IDataValueEditor GetValueEditor(object? configuration) {
-        IDataValueEditor editor = base.GetValueEditor(configuration);
-        if (editor is DataValueEditor dve) dve.View += $"?v={VimeoPackage.InformationalVersion}";
-        return editor;
-    }
-
     protected override IConfigurationEditor CreateConfigurationEditor() {
-        return new VimeoVideoConfigurationEditor(_ioHelper, _editorConfigurationParser);
+        return new VimeoVideoConfigurationEditor(_ioHelper);
     }
 
     #endregion

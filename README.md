@@ -1,6 +1,6 @@
 # Limbo Vimeo
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/limbo-works/Limbo.Umbraco.Vimeo/blob/v13/main/LICENSE.md)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/limbo-works/Limbo.Umbraco.Vimeo/blob/v17/main/LICENSE.md)
 [![NuGet](https://img.shields.io/nuget/v/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo)
 [![NuGet](https://img.shields.io/nuget/dt/Limbo.Umbraco.Vimeo.svg)](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo)
 [![Umbraco Marketplace](https://img.shields.io/badge/umbraco-marketplace-%233544B1)](https://marketplace.umbraco.com/package/limbo.umbraco.vimeo)
@@ -11,18 +11,18 @@
 <table>
   <tr>
     <td><strong>License:</strong></td>
-    <td><a href="https://github.com/limbo-works/Limbo.Umbraco.Vimeo/blob/v13/main/LICENSE.md"><strong>MIT License</strong></a></td>
+    <td><a href="https://github.com/limbo-works/Limbo.Umbraco.Vimeo/blob/v17/main/LICENSE.md"><strong>MIT License</strong></a></td>
   </tr>
   <tr>
     <td><strong>Umbraco:</strong></td>
     <td>
-      Umbraco 13
+      Umbraco 17
     </td>
   </tr>
   <tr>
     <td><strong>Target Framework:</strong></td>
     <td>
-      .NET 8
+      .NET 10
     </td>
   </tr>
 </table>
@@ -35,24 +35,28 @@
 
 ## Installation
 
-### Umbraco 13
+### Umbraco 17
 
-`v13.x` of the package targets Umbraco 13 and is available via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo). To install the package, you can use either the .NET CLI:
+`v17.x` of the package targets Umbraco 17 and is available via [**NuGet**](https://www.nuget.org/packages/Limbo.Umbraco.Vimeo). To install the package, you can use either the .NET CLI:
 
 ```
-dotnet add package Limbo.Umbraco.Vimeo
+dotnet add package Limbo.Umbraco.Vimeo --prerelease
 ```
 
 or the NuGet Package Manager:
 
 ```
-Install-Package Limbo.Umbraco.Vimeo
+Install-Package Limbo.Umbraco.Vimeo -IncludePrerelease
 ```
 
 ### Other versions of Umbraco
 
+- [**`v13/main`**](https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v13/main) Umbraco 13
 - ~~[**`v2/main`**](https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v2/main) Umbraco 10, 11 and 12~~ <sub title="Umbraco 10, 11 and 12 have reached end-of-life"><sup>(EOL)</sup></sub>
 - ~~[**`v1/main`**](https://github.com/limbo-works/Limbo.Umbraco.Vimeo/tree/v1/main) Umbraco 9~~ <sub title="Umbraco 9 has reached end-of-life"><sup>(EOL)</sup></sub>
+
+> [!NOTE]
+> `v17.x` is currently released as an alpha. See [**the upgrade notes**](./documentation/UMBRACO-17-UPGRADE.md) for what changed compared to `v13.x`.
 
 
 

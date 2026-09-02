@@ -1,4 +1,7 @@
-﻿using System;
+﻿// [CHANGE: Umbraco 17 upgrade - IPublishedDataType.Configuration renamed to PublishedDataType.ConfigurationObject]
+// Related: VimeoVideoConfiguration.cs, VimeoVideoPropertyEditor.cs, Models/Videos/VimeoVideoValue.cs
+
+using System;
 using Limbo.Umbraco.Vimeo.Models.Videos;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Newtonsoft;
@@ -30,7 +33,7 @@ public class VimeoVideoValueConverter : PropertyValueConverterBase {
 
     public override object? ConvertIntermediateToObject(IPublishedElement owner, IPublishedPropertyType propertyType, PropertyCacheLevel referenceCacheLevel, object? inter, bool preview) {
         if (inter is not JObject json) return null;
-        return json.GetObject("video") is null ? null : VimeoVideoValue.Parse(json, propertyType.DataType.Configuration as VimeoVideoConfiguration);
+        return json.GetObject("video") is null ? null : VimeoVideoValue.Parse(json, propertyType.DataType.ConfigurationObject as VimeoVideoConfiguration);
     }
 
     public override Type GetPropertyValueType(IPublishedPropertyType propertyType) {
