@@ -1,13 +1,11 @@
-// [CHANGE: Umbraco 17 upgrade - replaces wwwroot/Lang/da-DK.xml, which is no longer read by the backoffice]
-// Related: en-US.js, Manifests/VimeoPackageManifestReader.cs, Constants/VimeoErrorCodes.cs
-
 export default {
     limboVimeo: {
         video: "Video",
         id: "ID",
         title: "Titel",
         duration: "Længde",
-        refresh: "Genindlæs den valgte video",
+        clear: "Ryd",
+        refresh: "Genindlæs",
         urlOrEmbedCode: "URL eller embed-kode",
         urlPlaceholder: "Angiv videoens URL eller embed-kode her...",
         inherit: "Nedarv",

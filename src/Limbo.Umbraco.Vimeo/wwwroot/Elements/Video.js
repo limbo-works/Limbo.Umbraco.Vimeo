@@ -2,7 +2,7 @@
 // Related: ButtonList.js, Color.js, Manifests/VimeoPackageManifestReader.cs, Controllers/VimeoController.cs
 
 import { UmbElementMixin } from "@umbraco-cms/backoffice/element-api";
-import { LitElement, html, css, nothing } from "@umbraco-cms/backoffice/external/lit";
+import { LitElement, html, css, when, nothing } from "@umbraco-cms/backoffice/external/lit";
 import { UmbChangeEvent } from "@umbraco-cms/backoffice/event";
 import { umbHttpClient } from "@umbraco-cms/backoffice/http-client";
 import { tryExecute } from "@umbraco-cms/backoffice/resources";
@@ -22,115 +22,138 @@ export class LimboVimeoVideoElement extends UmbElementMixin(LitElement) {
 
     static properties = {
         value: { type: Object },
-        _loading: { state: true },
-        _error: { state: true },
-        _video: { state: true },
-        _embed: { state: true }
+        readonly: { type: Boolean, reflect: true }
     };
+
+    #value = null;
+    #video = null;
+    #loading = false;
+    #error = null;
+    #debounceTimer = null;
+    #embed = false;
+    #config = {};
+
+    // Incremented for each request so responses arriving out of order can be discarded
+    #requestToken = 0;
 
     constructor() {
         super();
-        this.value = undefined;
-        this._loading = false;
-        this._error = null;
-        this._video = null;
-        this._embed = false;
+        this.readonly = false;
     }
 
     // The configuration of the data type. Not used directly by the UI, but the setter is needed so Umbraco
     // doesn't complain about the property not being supported.
     set config(value) {
-        this._config = value;
+        this.#config = value;
     }
 
     get config() {
-        return this._config;
+        return this.#config;
     }
 
-    // Gets the source (URL or embed code) of the current value
-    get #source() {
-        return this.value?.source ?? "";
+    get value() {
+        return this.#value;
+    }
+
+    set value(value) {
+        const oldValue = this.#value;
+        this.#value = value ?? null;
+        this.#video = this.#parseDetails(this.#value);
+        this.requestUpdate("value", oldValue);
+        this.#updateTextareaMode();
+    }
+
+    get #videoId() {
+        // The "uri" of a video is in the format "/videos/1234" or "/videos/1234:hash"
+        return this.#video?.uri?.split("/")[2]?.split(":")[0] ?? null;
+    }
+
+    get #thumbnail() {
+        const sizes = this.#video?.pictures?.sizes;
+        if (!sizes?.length) return null;
+        return sizes.find((x) => x.width >= 200) ?? sizes[sizes.length - 1];
     }
 
     connectedCallback() {
         super.connectedCallback();
-        this.#parseValue();
-        // Whether to render a textarea rather than an input is decided when the value is loaded and when the user
-        // commits a change - not while typing, as swapping the element mid-typing would lose focus and caret
-        this._embed = this.#source.indexOf("<") >= 0;
+        this.#video = this.#parseDetails(this.#value);
+        this.#embed = this.#source.indexOf("<") >= 0;
     }
 
-    // [CHANGE: code review - "_embed" was only derived in "connectedCallback", so a value pushed into an already
-    // connected element (eg. when switching variant, or when the value arrives after the element was created) kept
-    // rendering a stored embed code in the single line input] Related: Color.js, ButtonList.js
-    updated(changed) {
-        super.updated(changed);
-        if (!changed.has("value")) return;
-        this.#parseValue();
-        // Only re-evaluate when the new source didn't come from this element, as swapping the element while the user
-        // is typing would lose focus and caret
-        if (this.#source !== this.#typedSource) this._embed = this.#source.indexOf("<") >= 0;
+    disconnectedCallback() {
+        super.disconnectedCallback();
+        window.clearTimeout(this.#debounceTimer);
     }
 
-    // Reads the raw Vimeo video data from the "_data" property of the property value. The data is stored as a
-    // serialized string as Umbraco would otherwise mangle the timestamps within the JSON returned by the Vimeo API.
-    #parseValue() {
-        const data = this.value?.video?._data;
-        if (!data) {
-            this._video = null;
-            return;
-        }
+    updated() {
+        this.#updateTextareaMode();
+    }
+
+    // Reads the raw Vimeo video out of the escaped JSON in "details._data".
+    #parseDetails(value) {
+        const details = value?.details ?? value?.data ?? value?.video;
+        if (!details?._data) return null;
         try {
-            this._video = typeof data === "string" ? JSON.parse(data) : data;
+            return JSON.parse(details._data);
         } catch {
-            this._video = null;
+            return null;
         }
     }
 
-    // The source as last entered by the user, so "updated" can tell an outside change from the user typing
-    #typedSource;
-
-    // Incremented for each request so responses arriving out of order can be discarded
-    #requestId = 0;
-
-    #onInput(e) {
-        const source = e.target.value ?? "";
-        this.#typedSource = source;
-        this.value = { ...(this.value ?? {}), source };
-        // Committed right away so the entered source isn't lost if the user saves before the request completes
-        this.#dispatchChange();
+    // Gets the source (URL or embed code) of the current value
+    get #source() {
+        return this.#value?.source ?? "";
     }
 
-    #onChange(e) {
-        this.#onInput(e);
-        this._embed = this.#source.indexOf("<") >= 0;
-        this.#getVideo();
+    async #updateTextareaMode() {
+
+        const uui = this.shadowRoot?.querySelector("uui-textarea");
+        if (!uui) return;
+
+        await (uui).updateComplete;
+
+        const textarea = uui.shadowRoot?.querySelector("textarea");
+
+        console.log("textarea: ", uui, textarea);
+
+        if (!textarea) return;
+
+        textarea.style.resize = this.#embed ? "vertical" : "none";
+
     }
 
-    #dispatchChange() {
+    #commit(value) {
+        this.value = value;
         this.dispatchEvent(new UmbChangeEvent());
     }
 
-    // Fetches information about the video of the entered URL/embed code from our own management API endpoint
-    async #getVideo() {
+    #clear() {
+        this.#error = "";
+        this.#loading = false;
+        window.clearTimeout(this.#debounceTimer);
+        this.#requestToken++;
+        this.#commit(null);
+    }
+
+    async #lookup() {
 
         const source = this.#source.trim();
 
-        // [CHANGE: code review - without this guard a slow response for an earlier source could land after a newer
-        // one and silently revert the source entered by the user] Related: Color.js, ButtonList.js
-        const requestId = ++this.#requestId;
-
-        this._error = null;
+        const requestId = ++this.#requestToken;
 
         // Reset the property value entirely when the user clears the input
         if (!source) {
             this.value = undefined;
-            this._video = null;
+            this.#video = null;
+            this.#error = null;
+            this.#loading = false;
             this.#dispatchChange();
             return;
         }
 
-        this._loading = true;
+        this.#error = null;
+        this.#loading = true;
+        this.requestUpdate();
 
         // Notifications are disabled as the error is rendered inline by this element - otherwise the user would get
         // a generic "Bad Request" notification on top of the localized message below
@@ -145,18 +168,16 @@ export class LimboVimeoVideoElement extends UmbElementMixin(LitElement) {
         );
 
         // Discard the response if a newer request has been started in the meantime
-        if (requestId !== this.#requestId) return;
+        if (requestId !== this.#requestToken) return;
 
-        this._loading = false;
+        this.#loading = false;
 
         if (error || !data) {
-
             // Keep the entered source so the user can correct it, but drop the video details
             this.value = { source };
-            this._video = null;
-            this._error = this.#localizeError(error);
+            this.#video = null;
+            this.#error = this.#localizeError(error);
             this.#dispatchChange();
-
             return;
 
         }
@@ -165,14 +186,58 @@ export class LimboVimeoVideoElement extends UmbElementMixin(LitElement) {
             source,
             credentials: data.credentials,
             parameters: data.parameters,
-            // Serialized on purpose - see the comment in #parseValue
             video: { _data: JSON.stringify(data.video) }
         };
 
-        this._video = data.video;
+        this.#video = data.video;
 
         this.#dispatchChange();
 
+    }
+
+    #scheduleLookup(source) {
+
+        window.clearTimeout(this.#debounceTimer);
+
+        // Discard the result of any lookup that is already in flight
+        this.#requestToken++;
+
+        const value = source.trim();
+        if (!value) {
+            this.#clear();
+            return;
+        }
+
+        this.#error = null;
+        this.requestUpdate();
+
+        this.#debounceTimer = window.setTimeout(() => this.#lookup(value), 250);
+
+    }
+
+    #onSourceInput(event) {
+        const source = event.target.value ?? "";
+        this.#commit({ ...(this.#value ?? {}), source });
+        this.#embed = source.indexOf("<") >= 0;
+        this.#scheduleLookup(source);
+    }
+
+    #onRefresh() {
+        window.clearTimeout(this.#debounceTimer);
+        const source = this.#value?.source.trim();
+        if (!source) {
+            this.#clear();
+            return;
+        }
+        this.#lookup(source);
+    }
+
+    #onClear() {
+        this.#clear();
+    }
+
+    #dispatchChange() {
+        this.dispatchEvent(new UmbChangeEvent());
     }
 
     // Translates the error code returned by the server into a message in the language of the current user. The
@@ -183,30 +248,62 @@ export class LimboVimeoVideoElement extends UmbElementMixin(LitElement) {
         return key ? this.localize.term(key) : this.localize.term(errorKeys.getVideoFailed);
     }
 
-    get #videoId() {
-        // The "uri" of a video is in the format "/videos/1234" or "/videos/1234:hash"
-        return this._video?.uri?.split("/")[2]?.split(":")[0] ?? null;
-    }
+    #renderEditor() {
 
-    get #thumbnail() {
-        const sizes = this._video?.pictures?.sizes;
-        if (!sizes?.length) return null;
-        return sizes.find((x) => x.width >= 200) ?? sizes[sizes.length - 1];
+        return html`
+            <div class="editor">
+                <uui-label for="source">
+                    <umb-localize key="limboVimeo_urlOrEmbedCode">URL or embed code</umb-localize>
+                </uui-label>
+                <textarea
+                            id="source"
+                            label=${this.localize.term("limboVimeo_urlOrEmbedCode")}
+                            .value=${this.#source}
+                            class="${this.#embed ? "embed" : "url"}"
+                            placeholder=${this.localize.term("limboVimeo_urlPlaceholder")}
+                            @input=${this.#onSourceInput}></textarea>
+
+
+                ${when(this.#error, () => html`
+                    <div class="error">
+                        <uui-icon name="icon-alert"></uui-icon>
+                        ${this.#error}
+                    </div>
+                `)}
+                ${when(this.#video, () => html`
+                    <div class="actions">
+                        <uui-button
+                            look="outline"
+                            label=${this.localize.term("limboVimeo_refresh")}
+                            ?disabled=${this.readonly}
+                            @click=${this.#onRefresh}></uui-button>
+                        <uui-button
+                            look="outline"
+                            color="danger"
+                            label=${this.localize.term("limboVimeo_clear")}
+                            ?disabled=${this.readonly}
+                            @click=${this.#onClear}></uui-button>
+                    </div>
+                `)}
+            </div>
+        `;
+
     }
 
     #renderDetails() {
 
-        if (!this._video) return nothing;
+        if (!this.#video) return nothing;
 
         const thumbnail = this.#thumbnail;
 
         return html`
-            <uui-box headline=${this.localize.term("limboVimeo_video")}>
-                <div class="details">
-                    ${thumbnail
-                        ? html`<img class="thumbnail" src=${thumbnail.link} alt=${this._video.name ?? ""} loading="lazy" />`
-                        : nothing}
-                    <div class="info">
+            <div class="block">
+                <h5>${this.localize.term("limboVimeo_video")}</h5>
+                <div class="box">
+                    <div class="card-row">
+                        ${when(thumbnail, () => html`
+                            <img class="thumbnail" src=${thumbnail.link} alt=${this.#video.name ?? ""} loading="lazy" />
+                        `)}
                         <table>
                             <tr>
                                 <th><umb-localize key="limboVimeo_id">ID</umb-localize></th>
@@ -214,81 +311,94 @@ export class LimboVimeoVideoElement extends UmbElementMixin(LitElement) {
                             </tr>
                             <tr>
                                 <th><umb-localize key="limboVimeo_title">Title</umb-localize></th>
-                                <td>${this._video.name}</td>
+                                <td>${this.#video.name}</td>
                             </tr>
                             <tr>
                                 <th><umb-localize key="limboVimeo_duration">Duration</umb-localize></th>
-                                <td><limbo-video-duration .value=${String(this._video.duration ?? "")}></limbo-video-duration></td>
+                                <td><limbo-video-duration .value=${String(this.#video.duration ?? "")}></limbo-video-duration></td>
                             </tr>
                         </table>
-                        ${this._video.description
-                            ? html`<div class="description">${this._video.description}</div>`
-                            : nothing}
                     </div>
+                    ${when(this.#video.description, () => html`<div class="description">${this.#video.description}</div>`)}
                 </div>
-            </uui-box>
+            </div>
         `;
 
     }
 
     render() {
         return html`
-            <div class="wrapper">
-
-                <uui-label for="source"><umb-localize key="limboVimeo_urlOrEmbedCode">URL or embed code</umb-localize></uui-label>
-
-                ${this._error
-                    ? html`<div class="error"><uui-icon name="icon-alert"></uui-icon> ${this._error}</div>`
-                    : nothing}
-
-                ${this._embed
-                    ? html`<uui-textarea
-                            id="source"
-                            label=${this.localize.term("limboVimeo_urlOrEmbedCode")}
-                            .value=${this.#source}
-                            rows="5"
-                            placeholder=${this.localize.term("limboVimeo_urlPlaceholder")}
-                            @input=${this.#onInput}
-                            @change=${this.#onChange}></uui-textarea>`
-                    : html`<uui-input
-                            id="source"
-                            label=${this.localize.term("limboVimeo_urlOrEmbedCode")}
-                            .value=${this.#source}
-                            placeholder=${this.localize.term("limboVimeo_urlPlaceholder")}
-                            @input=${this.#onInput}
-                            @change=${this.#onChange}></uui-input>`}
-
-                ${this._video
-                    ? html`<uui-button
-                            look="secondary"
-                            compact
-                            label=${this.localize.term("limboVimeo_refresh")}
-                            @click=${this.#getVideo}></uui-button>`
-                    : nothing}
-
-                ${this.#renderDetails()}
-
-                ${this._loading ? html`<uui-loader-bar></uui-loader-bar>` : nothing}
-
+            <div class="wrapper ${this.#loading ? "loading" : ""}">
+                <div>
+                    ${this.#renderEditor()}
+                    ${this.#renderDetails()}
+                </div>
+                ${this.#loading ? html`<uui-loader></uui-loader>` : nothing}
             </div>
         `;
     }
 
     static styles = css`
+
         :host {
             display: block;
+            position: relative;
         }
 
-        .wrapper {
-            display: flex;
+        .wrapper > div {
+            /*display: flex;
             flex-direction: column;
             gap: var(--uui-size-space-3);
-            align-items: flex-start;
+            align-items: flex-start;*/
+        }
+
+        .loading > div {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .loading uui-loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         uui-input,
         uui-textarea {
             width: 100%;
+        }
+
+        #source {
+            width: 100%;
+            resize: vertical;
+            box-sizing: border-box;
+            padding: var(--uui-size-space-2);
+            border: 1px solid var(--uui-color-border);
+            border-radius: var(--uui-border-radius);
+            background: var(--uui-color-surface);
+            color: var(--uui-color-text);
+            font: inherit;
+            min-height: 110px;
+            &.url {
+                resize: none;
+                min-height: 35px;
+                max-height: 35px;
+            }
+        }
+
+        uui-textarea.url::part(textarea) {
+            resize: none;
+            background: red;
+        }
+
+        uui-textarea {
+            --uui-textarea-min-height: 110px;
+        }
+
+        uui-textarea.url {
+            --uui-textarea-min-height: 32px;
+            --uui-textarea-max-height: 32px;
         }
 
         .error {
@@ -335,9 +445,44 @@ export class LimboVimeoVideoElement extends UmbElementMixin(LitElement) {
         }
 
         .description {
+            flex: 1;
             margin-top: var(--uui-size-space-4);
             white-space: pre-wrap;
         }
+
+        h5 {
+            margin: 0;
+        }
+
+        .editor {
+            display: grid;
+            gap: var(--uui-size-space-3);
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--uui-size-space-3);
+        }
+
+        .block {
+            margin-top: var(--uui-size-layout-1);
+        }
+
+        .box {
+            padding: var(--uui-size-space-4);
+            border: 1px solid var(--uui-color-border);
+            border-radius: var(--uui-border-radius);
+            background: var(--uui-color-surface-alt);
+        }
+
+        .card-row {
+            display: flex;
+            gap: var(--uui-size-space-4);
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
     `;
 
 }
