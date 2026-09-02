@@ -72,7 +72,7 @@ public class VimeoPackageManifestReader : IPackageManifestReader {
                         meta = new {
                             label = VimeoVideoPropertyEditor.EditorName,
                             icon = VimeoVideoPropertyEditor.EditorIcon,
-                            group = "media",
+                            group = "Limbo",
                             propertyEditorSchemaAlias = VimeoVideoPropertyEditor.EditorAlias,
                             settings = new {
                                 properties = new object[] {

@@ -1,11 +1,5 @@
-// [CHANGE: Umbraco 17 upgrade - the DataEditor attribute no longer accepts a name, view, group or icon; those are
-// now declared by the property editor UI in the package manifest]
-// Related: Manifests/VimeoPackageManifestReader.cs, VimeoVideoConfigurationEditor.cs, wwwroot/Elements/Video.js
-
 using Umbraco.Cms.Core.IO;
 using Umbraco.Cms.Core.PropertyEditors;
-
-#pragma warning disable 1591
 
 namespace Limbo.Umbraco.Vimeo.PropertyEditors;
 
@@ -23,12 +17,12 @@ public class VimeoVideoPropertyEditor : DataEditor {
     /// Gets the alias of the property editor schema. The alias is the only link between this class and the
     /// <c>propertyEditorSchemaAlias</c> of the property editor UI registered in the package manifest.
     /// </summary>
-    public const string EditorAlias = "Limbo.Umbraco.Vimeo";
+    public const string EditorAlias = "Limbo.Umbraco.Vimeo.Video";
 
     /// <summary>
     /// Gets the alias of the property editor UI registered in the package manifest.
     /// </summary>
-    public const string EditorUiAlias = "Limbo.Umbraco.Vimeo.Video";
+    public const string EditorUiAlias = $"{EditorAlias}.PropertyEditorUi";
 
     public const string EditorName = "Limbo Vimeo Video";
 
