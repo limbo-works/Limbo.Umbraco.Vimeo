@@ -6,7 +6,7 @@ using Limbo.Umbraco.Vimeo.Models.Credentials;
 using Limbo.Umbraco.Vimeo.Models.Settings;
 using Limbo.Umbraco.Vimeo.Options;
 using Microsoft.Extensions.Options;
-using Skybrud.Essentials.Collections.Extensions;
+using Skybrud.Essentials.Collections.Lists.Extensions;
 using Skybrud.Essentials.Strings;
 using Skybrud.Essentials.Strings.Extensions;
 using Skybrud.Social.Vimeo;

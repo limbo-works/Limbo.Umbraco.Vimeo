@@ -1,7 +1,4 @@
-﻿// [CHANGE: Umbraco 17 upgrade - IVideoDetails in Limbo.Umbraco.Video v17 exposes IReadOnlyList instead of IEnumerable]
-// Related: VimeoVideoValue.cs, PropertyEditors/VimeoVideoValueConverter.cs, Controllers/VimeoController.cs
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -9,7 +6,7 @@ using Limbo.Umbraco.Video.Models.Videos;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Newtonsoft;
-using Skybrud.Essentials.Json.Converters.Time;
+using Skybrud.Essentials.Json.Newtonsoft.Converters.Time;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 using Skybrud.Social.Vimeo.Models.Videos;
 
