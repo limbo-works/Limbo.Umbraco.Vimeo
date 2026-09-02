@@ -5,6 +5,8 @@
 
 using System;
 using System.Linq;
+using Asp.Versioning;
+using Limbo.Umbraco.Vimeo.Api;
 using Limbo.Umbraco.Vimeo.Constants;
 using Limbo.Umbraco.Vimeo.Models.Api;
 using Limbo.Umbraco.Vimeo.Models.Settings;
@@ -29,10 +31,12 @@ using Umbraco.Cms.Web.Common.Authorization;
 
 namespace Limbo.Umbraco.Vimeo.Controllers;
 
-[ApiExplorerSettings(GroupName = "Limbo Vimeo")]
-[VersionedApiBackOfficeRoute("vimeo")]
-[MapToApi("management")]
-[Authorize(Policy = AuthorizationPolicies.BackOfficeAccess)]
+[ApiExplorerSettings(GroupName = "Vimeo")]
+[ApiController]
+[VersionedApiBackOfficeRoute(VimeoApiConstants.Route)]
+[Authorize(Policy = AuthorizationPolicies.SectionAccessContent)]
+[MapToApi(VimeoApiConstants.Alias)]
+[ApiVersion(VimeoApiConstants.Version)]
 public class VimeoController : ManagementApiControllerBase {
 
     private readonly ILogger<VimeoController> _logger;
@@ -54,7 +58,7 @@ public class VimeoController : ManagementApiControllerBase {
     /// </summary>
     /// <param name="source">The URL or embed code of the video.</param>
     [HttpGet("video")]
-    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType<ApiVideoValue>(StatusCodes.Status200OK)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status400BadRequest)]
     [ProducesResponseType<ProblemDetails>(StatusCodes.Status500InternalServerError)]
     public IActionResult GetVideo([FromQuery] string? source) {
