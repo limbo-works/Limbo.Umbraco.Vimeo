@@ -6,7 +6,7 @@ namespace Limbo.Umbraco.Vimeo.PropertyEditors;
 /// <summary>
 /// Represents the property editor schema (data editor) of the Vimeo video picker.
 /// </summary>
-[DataEditor(EditorAlias, ValueType = ValueTypes.Json)]
+[DataEditor(EditorAlias, ValueType = ValueType)]
 public class VimeoVideoPropertyEditor : DataEditor {
 
     private readonly IIOHelper _ioHelper;
@@ -27,6 +27,10 @@ public class VimeoVideoPropertyEditor : DataEditor {
     public const string EditorName = "Limbo Vimeo Video";
 
     public const string EditorIcon = "icon-limbo-vimeo-alt";
+
+    public const string EditorGroup = "Limbo";
+
+    public const string ValueType = ValueTypes.Json;
 
     #endregion
 

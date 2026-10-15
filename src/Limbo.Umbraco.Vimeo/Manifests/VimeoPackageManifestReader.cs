@@ -4,9 +4,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Limbo.Umbraco.Vimeo.PropertyEditors;
-using Skybrud.Essentials.Security.Extensions;
 using Umbraco.Cms.Core.Manifest;
 using Umbraco.Cms.Infrastructure.Manifest;
+
+using static Limbo.Umbraco.Vimeo.VimeoPackage;
 
 namespace Limbo.Umbraco.Vimeo.Manifests;
 
@@ -19,25 +20,19 @@ public class VimeoPackageManifestReader : IPackageManifestReader {
 
     public async Task<IEnumerable<PackageManifest>> ReadPackageManifestsAsync() {
 
-        const string alias = VimeoPackage.Alias;
-
-        // The informational version is hashed and appended to the URLs of the JavaScript files so browsers will
-        // pick up new versions of the files rather than using a cached version
-        string cacheBuster = VimeoPackage.InformationalVersion.ToMd5Hash();
-
         List<PackageManifest> manifests = [
             new() {
-                Id = alias,
-                Name = VimeoPackage.Name,
-                Version = VimeoPackage.InformationalVersion,
+                Id = Alias,
+                Name = Name,
+                Version = InformationalVersion,
                 AllowTelemetry = true,
                 Extensions = [
 
                     new {
                         type = "localization",
-                        alias = $"{alias}.Localization.En",
+                        Alias = $"{Alias}.Localization.En",
                         name = "English",
-                        js = $"/App_Plugins/{alias}/Localization/en-US.js?v={cacheBuster}",
+                        js = $"/App_Plugins/{Alias}/Localization/en-US.js",
                         meta = new {
                             culture = "en"
                         }
@@ -45,9 +40,9 @@ public class VimeoPackageManifestReader : IPackageManifestReader {
 
                     new {
                         type = "localization",
-                        alias = $"{alias}.Localization.Da",
+                        Alias = $"{Alias}.Localization.Da",
                         name = "Danish",
-                        js = $"/App_Plugins/{alias}/Localization/da-DK.js?v={cacheBuster}",
+                        js = $"/App_Plugins/{Alias}/Localization/da-DK.js",
                         meta = new {
                             culture = "da"
                         }
@@ -55,9 +50,9 @@ public class VimeoPackageManifestReader : IPackageManifestReader {
 
                     new {
                         type = "icons",
-                        alias = $"{alias}.Icons",
+                        Alias = $"{Alias}.Icons",
                         name = "Limbo Vimeo Icons",
-                        js = $"/App_Plugins/{alias}/Icons/icons.js?v={cacheBuster}"
+                        js = $"/App_Plugins/{Alias}/Icons/icons.js"
                     },
 
                     // The property editor UI shown when editing a property using this package's property editor.
@@ -65,40 +60,40 @@ public class VimeoPackageManifestReader : IPackageManifestReader {
                     // below were declared via the "ConfigurationField" attributes in C#.
                     new {
                         type = "propertyEditorUi",
-                        alias = VimeoVideoPropertyEditor.EditorUiAlias,
+                        Alias = VimeoVideoPropertyEditor.EditorUiAlias,
                         name = VimeoVideoPropertyEditor.EditorName,
-                        element = $"/App_Plugins/{alias}/Elements/Video.js?v={cacheBuster}",
+                        element = $"/App_Plugins/{Alias}/Elements/Video.js",
                         elementName = "limbo-vimeo-video",
                         meta = new {
                             label = VimeoVideoPropertyEditor.EditorName,
                             icon = VimeoVideoPropertyEditor.EditorIcon,
-                            group = "Limbo",
+                            group = VimeoVideoPropertyEditor.EditorGroup,
                             propertyEditorSchemaAlias = VimeoVideoPropertyEditor.EditorAlias,
                             settings = new {
                                 properties = new object[] {
                                     new {
-                                        alias = "autoplay",
+                                        Alias = "autoplay",
                                         label = "Autoplay",
                                         description = "Select whether videos should autoplay when embedded.",
                                         propertyEditorUiAlias = ButtonListUiAlias,
                                         weight = 10
                                     },
                                     new {
-                                        alias = "loop",
+                                        Alias = "loop",
                                         label = "Loop",
                                         description = "Select whether videos should loop.",
                                         propertyEditorUiAlias = ButtonListUiAlias,
                                         weight = 20
                                     },
                                     new {
-                                        alias = "color",
+                                        Alias = "color",
                                         label = "Color",
                                         description = "Select the color of the embedded player.",
                                         propertyEditorUiAlias = ColorUiAlias,
                                         weight = 30
                                     },
                                     new {
-                                        alias = "showTitle",
+                                        Alias = "showTitle",
                                         label = "Show title",
                                         description = "Select whether the video title should be shown in the embedded player.",
                                         propertyEditorUiAlias = ButtonListUiAlias,
@@ -106,7 +101,7 @@ public class VimeoPackageManifestReader : IPackageManifestReader {
                                         weight = 40
                                     },
                                     new {
-                                        alias = "showByLine",
+                                        Alias = "showByLine",
                                         label = "Show by line",
                                         description = "Select whether the video by line should be shown in the embedded player.",
                                         propertyEditorUiAlias = ButtonListUiAlias,
@@ -114,7 +109,7 @@ public class VimeoPackageManifestReader : IPackageManifestReader {
                                         weight = 50
                                     },
                                     new {
-                                        alias = "showPortrait",
+                                        Alias = "showPortrait",
                                         label = "Show portrait",
                                         description = "Select whether the video author portrait should be shown in the embedded player.",
                                         propertyEditorUiAlias = ButtonListUiAlias,
@@ -123,9 +118,9 @@ public class VimeoPackageManifestReader : IPackageManifestReader {
                                     }
                                 },
                                 defaultData = new object[] {
-                                    new { alias = "autoplay", value = "inherit" },
-                                    new { alias = "loop", value = "inherit" },
-                                    new { alias = "color", value = "inherit" }
+                                    new { Alias = "autoplay", value = "inherit" },
+                                    new { Alias = "loop", value = "inherit" },
+                                    new { Alias = "color", value = "inherit" }
                                 }
                             }
                         }
@@ -135,9 +130,9 @@ public class VimeoPackageManifestReader : IPackageManifestReader {
                     // "propertyEditorSchemaAlias" as it may only be used to configure other property editors.
                     new {
                         type = "propertyEditorUi",
-                        alias = ButtonListUiAlias,
+                        Alias = ButtonListUiAlias,
                         name = "Limbo Vimeo Button List",
-                        element = $"/App_Plugins/{alias}/Elements/ButtonList.js?v={cacheBuster}",
+                        element = $"/App_Plugins/{Alias}/Elements/ButtonList.js",
                         elementName = "limbo-vimeo-button-list",
                         meta = new {
                             label = "Limbo Vimeo Button List",
@@ -148,9 +143,9 @@ public class VimeoPackageManifestReader : IPackageManifestReader {
 
                     new {
                         type = "propertyEditorUi",
-                        alias = ColorUiAlias,
+                        Alias = ColorUiAlias,
                         name = "Limbo Vimeo Color",
-                        element = $"/App_Plugins/{alias}/Elements/Color.js?v={cacheBuster}",
+                        element = $"/App_Plugins/{Alias}/Elements/Color.js",
                         elementName = "limbo-vimeo-color",
                         meta = new {
                             label = "Limbo Vimeo Color",
@@ -170,14 +165,14 @@ public class VimeoPackageManifestReader : IPackageManifestReader {
     #region Constants
 
     /// <summary>
-    /// Gets the alias of the property editor UI used for the tri-state configuration fields.
+    /// Gets the Alias of the property editor UI used for the tri-state configuration fields.
     /// </summary>
-    public const string ButtonListUiAlias = $"{VimeoPackage.Alias}.ButtonList";
+    public const string ButtonListUiAlias = $"{Alias}.ButtonList";
 
     /// <summary>
-    /// Gets the alias of the property editor UI used for the "color" configuration field.
+    /// Gets the Alias of the property editor UI used for the "color" configuration field.
     /// </summary>
-    public const string ColorUiAlias = $"{VimeoPackage.Alias}.Color";
+    public const string ColorUiAlias = $"{Alias}.Color";
 
     /// <summary>
     /// Configuration telling the button list UI to store the value as a nullable boolean rather than a string.
