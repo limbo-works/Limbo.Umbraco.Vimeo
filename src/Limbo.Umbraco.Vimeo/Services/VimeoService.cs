@@ -49,7 +49,7 @@ public class VimeoService {
 
             // Match the "src" attribute
             Match m0 = Regex.Match(source, "src=\"(.+?)\"", RegexOptions.IgnoreCase);
-            if (m0.Success == false) return false;
+            if (!m0.Success) return false;
 
             // Update the source with the value from the "src" attribute
             source = m0.Groups[1].Value;
